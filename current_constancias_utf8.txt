@@ -1,0 +1,673 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal de Constancias â?" E.B.B. "Pedro Felipe LedA-a"</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Spectral+SC:wght@600&family=Karla:wght@400;500;600;700&dA-ay=swap');
+
+    :root {
+      --azul: #0B1F3A;
+      --azul-2: #13315c;
+      --aA±o: #FFC726;
+      --rojo: #C81E3A;
+      --crema: #F7F1E3;
+      --verde: #1B4332;
+      --tinta: #2D2A26;
+      --papel-borde: rgba(45,42,38,0.14);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Karla', sans-serif;
+      color: var(--tinta);
+      baA±ound: var(--crema);
+      min-height: 100vh;
+      dA-ay: flex;
+      flex-direction: column;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      baA±ound: var(--azul);
+      border-bottom: 3px solid var(--aA±o);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-inner {
+      dA-ay: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 28px;
+      max-width: 1200px;
+      margin: 0 aA±o;
+      width: 100%;
+    }
+    .brand {
+      dA-ay: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .logo-chip {
+      width: 60px;
+      height: 60px;
+      dA-ay: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-chip img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shaA±ow(0 2px 4px rgba(0,0,0,0.15));
+    }
+    .brand-text {
+      color: var(--crema);
+    }
+    .brand-text .school-name {
+      font-family: 'Fraunces', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      line-height: 1.15;
+    }
+    .brand-text .school-sub {
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-traA±orm: uppercase;
+      color: var(--aA±o);
+      margin-top: 2px;
+    }
+    nav {
+      dA-ay: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    nav a {
+      color: var(--crema);
+      font-size: 0.92rem;
+      font-weight: 500;
+      opacity: 0.88;
+      traA±on: opacity 0.2s, color 0.2s;
+    }
+    nav a:hover {
+      opacity: 1;
+      color: var(--aA±o);
+    }
+    .logout-btn {
+      baA±ound: var(--rojo);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      traA±on: baA±ound-color 0.2s, traA±orm 0.1s;
+      border: none;
+    }
+    .logout-btn:hover {
+      baA±ound: #a0182e;
+      traA±orm: translateY(-1px);
+    }
+
+    /* ===== MAIN CONA° ===== */
+    main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 aA±o;
+      padding: 30px 20px 60px;
+      width: 100%;
+    }
+
+    .welcome-bar {
+      baA±ound: var(--azul);
+      color: white;
+      padding: 20px 28px;
+      border-radius: 14px;
+      margin-bottom: 30px;
+      dA-ay: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shaA±ow: 0 10px 24px rgba(11, 31, 58, 0.12);
+    }
+    .welcome-bar h2 {
+      font-size: 1.4rem;
+    }
+    .welcome-bar h2 span {
+      color: var(--aA±o);
+    }
+    .role-badge {
+      baA±ound: rgba(255, 255, 255, 0.15);
+      border: 1px solid var(--aA±o);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      dA-ay: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .portal-grid {
+      dA-ay: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    @medA-a (max-width: 900px) {
+      .portal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ===== FORM PANA° ===== */
+    .form-panel {
+      baA±ound: white;
+      padding: 30px;
+      border-radius: 16px;
+      border: 1px solid var(--papel-borde);
+      box-shaA±ow: 0 6px 16px rgba(0, 0, 0, 0.04);
+    }
+    .form-panel h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: var(--azul);
+      border-bottom: 2px solid var(--crema);
+      padding-bottom: 12px;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      dA-ay: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--tinta);
+      letter-spacing: 0.03em;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--papel-borde);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: var(--tinta);
+      baA±ound-color: #faf9f6;
+      traA±on: border-color 0.2s, baA±ound-color 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: var(--azul);
+      baA±ound-color: white;
+    }
+
+    .print-aA±on-btn {
+      width: 100%;
+      baA±ound: var(--aA±o);
+      color: var(--azul);
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      dA-ay: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      traA±on: baA±ound-color 0.2s, traA±orm 0.1s, box-shaA±ow 0.2s;
+      margin-top: 10px;
+    }
+    .print-aA±on-btn:hover {
+      baA±ound: #ffdb58;
+      box-shaA±ow: 0 6px 16px rgba(255, 199, 38, 0.3);
+      traA±orm: translateY(-1px);
+    }
+
+    /* ===== DYNA° PREVIEW SHEET ===== */
+    .preview-container {
+      dA-ay: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .preview-header-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(45, 42, 38, 0.5);
+      margin-bottom: 8px;
+      align-self: flex-start;
+      text-traA±orm: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    /* Letter Proportion Sheet */
+    .document-sheet {
+      baA±ound: white;
+      width: 100%;
+      aspect-raA±o: 1 / 1.29; /* Letter proportion */
+      border: 1px solid var(--papel-borde);
+      box-shaA±ow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border-radius: 4px;
+      padding: 60px 50px;
+      dA-ay: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      color: #000;
+    }
+
+    /* School Document Header */
+    .doc-header {
+      dA-ay: flex;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 2px double #000;
+      padding-bottom: 15px;
+      margin-bottom: 30px;
+    }
+    .doc-logo {
+      width: 75px;
+      height: 75px;
+      dA-ay: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .doc-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .doc-header-text {
+      font-size: 0.72rem;
+      font-weight: 700;
+      line-height: 1.3;
+      text-traA±orm: uppercase;
+      font-family: Arial, sans-serif;
+    }
+
+    .doc-title {
+      text-align: center;
+      font-family: 'Fraunces', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 40px;
+      text-traA±orm: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid #000;
+      dA-ay: inline-block;
+      align-self: center;
+      padding-bottom: 4px;
+    }
+
+    .doc-body {
+      font-family: Times, "Times NA° Roman", serif;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      text-align: justify;
+      flex: 1;
+      margin-bottom: 40px;
+    }
+    .doc-body p {
+      text-indent: 30px;
+      margin-bottom: 20px;
+    }
+
+    .doc-date {
+      margin-top: 30px;
+      font-family: Times, "Times NA° Roman", serif;
+      font-size: 1.05rem;
+      text-align: right;
+      margin-bottom: 50px;
+    }
+
+    .doc-footer {
+      dA-ay: flex;
+      justify-content: space-aA±ound;
+      margin-top: aA±o;
+      text-align: center;
+    }
+    .signature-box {
+      width: 220px;
+      border-top: 1px solid #000;
+      padding-top: 8px;
+      font-size: 0.85rem;
+      font-family: Arial, sans-serif;
+      line-height: 1.4;
+    }
+
+    /* Print styles */
+    @medA-a print {
+      body {
+        baA±ound: white;
+        color: black;
+      }
+      header, main > .welcome-bar, .form-panel, .preview-header-label, nav {
+        dA-ay: none !important;
+      }
+      main {
+        padding: 0;
+        margin: 0;
+        max-width: 100%;
+        width: 100%;
+      }
+      .portal-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .document-sheet {
+        border: none;
+        box-shaA±ow: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        aspect-raA±o: aA±o;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="logo-chip">
+        <img src="dA-a:image/webp;base64,UklGRnhqAA±oyIhJ/T7EJAPCWNA°/HA5ir0G8JB/wOy83NA°/K/t7+RvzIWR/F/3f9Y/k58yuwjtLzDeiv/L/kvy3+Y//C9WX6I/6n56/Qh+qf+O/w37x/4z4wf2597P+D/7XqZ/pH+G/Zr3ZvTL/e/UQ/r3+v///ZB+iJ5dP7rfEF+5/7p+1B/+9Yt82/278jfer8e/Uv73/Zf7//u/756g/kH0X91/vX+X/0v+E/+X+t+N//Q8RXYvmd/Jvtz+S/u3+Y/4f+D+Zn8t/w/9D+Ofo78fP9X/GewL+Tfzf/G/mH/e/3c94X++7km3H+79Qj3X+n/7b/C/57/zf5r4cPi/9T/iPx3+FvsJ/svuh+wH+jf07/P/3L98P8V///e9/73jJfjP+R/3PcC/nv9w/8v98/1v7R/Tr/cf+r/afmL7tv0z/Tf+f/Vflx9iH86/tn/M/xf5VeDX0kzVC9LOIoXwTioNA°/lBTUAR8JXstlr0304pqAPcOT/nFJOV08NA°//eELn29M16pNA°+2KafYEbbf/GWXXsthqjl24Y/peWCY5RFX04ppFfuXVscXYf20cO/5O/misuozy/wwLf2bnmhve1d1Ru2ipYf/6TNA°/59scQ6tRYPiaYGkMh1MhDFmdA-agDyQ4RdNA°+oDvnYScXnllVqyupf9fPYCs0b+LJDjhI01sjckkYR0Q/ut6j5aOg1CX1IOc1shHi9BAuvUSes6m4/EX8Rj3bzRuSXbApU//3EcUcM5BEdCxQT9u34FbeXLRZQ2/P8wDINA°+HQl4h9UspkMxPB2+/7s4jsj3Dk/Q13ZUhSpcnDeVdWxCu96or297Jj17NA°/9U15wrpjvypNA°+jp/x18nyVQv9qjNA°/QvGs19vhvZl7OlvwajcgVLXS3523ROF7cvQ2ArHJBygg46ex6OvivnPQm/NA°+ZUcp+x0MnmJAaaMUUUMTiYGUtLISgWvPS7RYwz40TDc2d0krlm+5JENA°/xY64MI5j7cIjWVbOwqNA°+kFYnsaA±o7Hxe7pe67FQDHPSG9QRnfkUdA-a+F/+JZBbKsz7ass/haC/27fg05eo0UglX1lqWdA-anPkNA°/TzIbNA°+34NA°+dUnOubQC5SsDRUVcuvmWjGjR/HNA°/bt9Q+CgSxcSYVGludA-adxDPlt8ypZP8F+ft8RTqfhO9B2kb8M2KGOWAkgDz4lzH21H3FONA°+ncgHy0/9IJZA+jA/ogQow8wVcysM0FW00eflhW9Y0vG3LfNA°/P27fg2bM2cjK4Z0eEo9ZlScivBUI6oTce1aA±oAGpHseyuHvU8SKMea6E5QLiRg/OyGcz13//Tb8glq0+v4R+3m9D2/ewFbZd7FvrlsQ5dlzBFlFBiNA°+W4oLW+ofye4comfrE6D5B3tYS77t+DZpjpe5YmstSQ/DcWaB8ZK8gHUtvGx+YbhlHoGG1yEmjLDuG9iPG/1esHAM4v4nG31mbr9YNA°/D1IcJ1fsUHjn0L5FwgUYT9KfLWRY2Hqjcf/5zSJ5z2kdA-aSJZwDBt3wfTRfdvwbNA°+ggW5MmBE4lBrsHRNA°+VgnSEZlkYa1YXJTteL7VsNA°/AflXG+cEoLMHYmUhcq2rRu/VcTRDz5I6Q0ob9mYe74VSW3LrOaTrSfa1LA6d+Zp3EEUlHTTNA°+onFDoFqcU1AEY3rw2besggA6hVrRRy3NA°+VduMnEeQ/OEfp3Ax6s4eQ3bSWIebZlvPPDtZ3seMAgeg2scPqNA°/0+NA°+nLFKDQhLu58sRH5hTEm4faUFLIDHmrVSmSXejw4ZGgGg9uGUryAhhx7rLr6jNA°/usy1NA°/JG0xUxIlw7oLNA°+qLK5OhAA±onJetxtfMdkOu0I5L+sSc/htzfnYD2inGWFRacOu8JMNA°+X8ZnpWAA±oOVin3MVB4FRHWUqJ5tbsOCa3A8+r3yaUhyZjCJiiDsG616wD0qPXrf54C13NA°/ShYYd3LPpeFVv7ZSc0vs9pCMXU0ypmE6zibff1gLHiy6zt5r8KeRpfD3//hQCqM3jfdLRE97P40U6wEQRO2M0ipGAGlx4DPF4NA°/TzpupsnNA°/9mficM/v/XXXKidA-aRANA°++gQYDf0q2+Ab/xeMHL5KMhi6357Vki3RHaKjmYqsjNA°/4ZO7uYae6H8NA°+VS5+khcVeCIhCIWfTU/11kUoJi2jNA°+pmxPITPp2M+3iBUDpOlzYiAirpDFnXw6VJvbJ+MevTDxTH1PQVM0i6NA°+5S9BgukGj6k5rk9ABaGyghuUj4l56fcacqtlcLd//OTjRhjpzB6HRRQPuCw/rOZmF2EWFH5WLatyFhR8m7EyrCIh40V/eOkuP2aD6NA°/OveTgqF+rUo6OhW3tfBAVN+vYh2U9fBhs0Kr20gNA°/6hGlbXeXksMr99T/bt+DZ7UAe2vKmxx8d7B7FdHwSKsnOWqblbQScsgtmBUCGxqhuKNA°/MD0nP8IBz+HV9OKagD3DlEVfTilR0FLDHpTc2Kdhqc8Kz+Le462Hb8aw//zjTr9+vaA±oA9w5RFX04pqAPcOURV9OKagD2sAA/v+X6WHUrj2ZfuVvO1LkryrVC84IVSRzO6cZOz9QychaYjOsNA°/1LEcV0e0ONA°/QB+Vr8++jxnqablpzu4UQJv8dQNA°/nbEbW9Yk4llJuncE3QdZCX4mdvl/mckqhrRdVtQhhKVx4FwxSc0lyAA±oQww492dHNA°/kKyHXg0BVky2t84jtXpsxNA°/MwgM7iG7487ZvnwC558kyof8bYtXKk/MrJ9v2Q5PSKMxWLGXLcCOIpsQ6DCyiWlqluE2Oe2NA°/v8cju+uyQsIT+aQBItaiuq7NA°/PjxHKFSoXUrgqhwGh0cfMhCwW8fIz1878daA±ovw/PjxGZFVSqU76cEnGmzdA-aRuDqpICSNA°+GnkzrS3+s5OmXbdoNA°+CsEvLekfZ3PBNA°+PCN/5V8YWve4sM3Cl0YZ2qmKUrTBUFXre2xMbJmsRpIQipzalTHI1sCS6air4RBJC8xtQqzh4WQMAw9iKsAiC1nyD67NA°+8Qj9ymrEIbdb/qLCbL51xN/Sx4TOcTtwpHYJvYYQUb/O/k/UMS2lLmQIx595QuSxLSHqVcKEYNA°/iQ0leHBLL3C/WJJHOVYt3wydgXTL7lGLB28cqRgKhwuTqXPPb/Zc6scl2LVKl9ETlrOkIUqDrPcLZ9a5dA-a9iAJTOt/Ab3a3LSH3sWi61n0Zsi27HxsKf7/eMLNA°+MmucVdxJxAACGlj59nHD/1nFvV+asrYwfBb08lpOdA-aDcG5+Xo06rrs5/tL4LbhLdA-ar7Z3GlNA°/kx8xbTUlEsSmZutu7vLrlhpq79RrZCENA°/DFhkeyc9J7V9itAQFIuZHDh1qcka+OkNA°/Z4DV4YC2D9Dqatg0Vtc+WidLYDXefcZVT6gLpsT1FZ/aA±oha9jsBsRLFtGZJDwnmgaB/fZS3O5QZ4XR2iB7jRD+1exEli++/8//U41G4AA±okcxXMhabqMB4BxIZDyF2wSRQu/GVBn32HdilOkcyfGd1/vADvUXshUeL/sO61JW6bKkO0WuXubfjeGnAoDtYLR+EsAA±oYd67dqJfjE/ZjixzCyR+VDlcL2X1ds+GQo0W9lU91lafZilP3lZDJh+O57cJtlm3FDVJIYXx3WwYM/s0yXVRdA-azGAkGtl/gu7aSdhdWi9IkF/5qWCLYqdfBiGzCJmpDomPGI4Lu7ueO7G05oHn4bYg3UKQOnDNA°+4SaA±o9UJwSLpclPebwtNA°+NA°/Z3cgRJMyb08jViegw0rClcb9/xYmeV8nAY+lNA°/7kwDh2fvNA°/wk55y2Q0poziuVIhd1CSOnoxk3kvniz8zOxvAA±oQJS4pRziWwkmLZkiylup3/K4qtEAA±ovHQ5pAUeuUHn146IrACc9OUH6JzVTe8lsD0LHd4V+1BsM9DvoBHMkd/celEP69dA-aZqWT0qHyWvRFRxpgfzcEwNA°/qa026lw273AKzDchk8aI+fUbkk16T9u1SRd6Gy1K77OXTm8QunqEEUEWYUgwDF7hY1CEZFWDSFMf2XTr8uYxc9OZJKzldSZfW2bDJ9x4L52gdXKuyb4Gk/2yeX7SYA3fty9BDNA°/h2c9R0rOB0dFuusIE7MzAA±ojiA8bmK7UvV8zU/F+m5FImPgk6qjOl78BCXFDoEcpfv7FctlQVRVPJmUpOUP4L4rATU76dlMH8qunRhhVOI9xwTuF+FD8Qn2H8yWedRVFeku2O/LbDikg8Pea3dd/3aA±ohH4ygLgQDQ98HyRATlZjgth0gX86ufUxD5dFk2cTLAJMKjML4jqGk+dI10kS3lCbiR2dCLFN/mE4cRMckEZrEjvVIGZ5VmhyYicyHnoz7xu5j8Mv91hzV+DT/H2mXQj1BxLFS6n0hx0x3NA°/WzphW0yXeVGGKdnzSfYNA°/5LLVUjAVvAENA°/ap/2Tx6cSr0GWoTAXIF4asamfJ9sQU6aSGf2Sryj7CmZn/iPtt/mJu59ZmtC1QkqoOWp4e6cRW4lZtyF2O9O1AB9aV/Rume5ULsNA°//AZ69gUwE49sF5FX9uEYV1KsNA°+cHbO5TrE87cuApAV/Fu2n+xqwPIs5/1ASX2ZMKSed325V2/A/tpJHHEniwrGFg3GyPT00HIYcVNA°+INA°+s/H0kmpt0nnpykNA°+O9fhkCMP54mKAA±o9UdlwP7/LO8c24t3hXBzguOVZmO2SgeMm+VdH4/xhO58Q+yzlM4lYJtWFXLzfzzZwV/M5amKMwLW2gcG7yxPjukpFQdmc0Z3rOhVYeVdYNA°+w7s0Tm5toLuP1y98mZAP7/81ARFKtaq9jXXZ0u605xtmaEXxQO6WZizK9QvvZwOrm36MfN+a+JDhZBb5IFGGEpGBxk+bh/kpuPJnrEz10Eyeqk53Bs8NA°+rofhQ0dFRiNA°+DPIjSF+T544kf+co4Y9+tC1tL3jxR96kEHHCbPaA±oQZLImOFXV4Q8Z2I7PfXBuddMYePMh4rzWNA°+3jQOkPQHa+tIXBWwZrvvDxCj4g0cnUyExUeR0Tfh1E5i0BX/Gc5T/ZRVrqKvPALnGQx8xxSjAUOb1WXa22KceYbI6C+k8KKGxTuqORnVBOjLo8k0VeV4cFDVLOnx1RLXHtA6WiOxTPl7F0JMKhNA°+VuSsSg8lPf0NA°/z6kkcGoxfo8DIL4Bl1o+zBJ1pPIVax0/DJXlkOBUKEgFZgv/1v9ZNA°+tIwM7cXKfJHrp606d48GhfK/J6QDbmxNA°+8LvaA±ow8XmFV/Odw+EY/YPeMzH4fXCpJ4f+Zt7mmI9O65ZXrK18+ekT6PiY8tw5aOFNA°/g/AA±ovTVHH4r+MW4PhR1BSboK5EizJrL5dbKM70fPTdrD+qGwgGNA°/VcDMlelgmLCFb7LxuZ93OjA810/2oBT5Ds7BaAdf4FwY9rGl1tntGAk/i2mJjQOq3i5lByW9mCRLIGZ+ZSO+NA°+bTGhtMfQo8tnH8P/pc8XLhk2sExH7hT9PzcsWBTBqZwd5gjLIB+05i4BGcTnrtK+6hAMOdH1eNA°/ls2cRvE5Cijtf3QFEzH8ls71NA°+/oH72J2V4BO7gwt5BiIMr/TmqhQnIYRzR9a+VifmUtvzL7tGsHqzB3MDT4DKxFE/MKhmJCK7m0WcBsFe+0hnjeT3dzjdv46LlMOYMb8V/L7xZbUle0AA±oqSyXa4e2MGE1RRGdPrkCSiGPOfswNA°/KB2FmbCaR95ZABOVh0PDKqTNA°/UJKGMyEjNA°+B+y1WyyZ574hV11kVmD+b77HbKTxvbx2cIfTO9pLgeZAA±oVvL7ph6B6U/UpXuf+g8XwGFxha9QhH6+8OSxWLccZ9SYCdkzpN/FY9Cr37jzV9cmmmyNA°+a6B52fzZhgDx3L5Cfliq/3NA°+C2130unrflPA-GqsVE7t1mEYKAA±oGuxg1DR3QUd4ZLXIBvZd+ohyVtCgFnCDXNA°/3StG3CNA°/55b0gD/a5sRte0nU31MruPEghb6RhhL+jMYTrZDOFRm4wFYg9pP7Q+3+MfXTJBckoH5RYu2SPEmU83D+KV+fGoTtsXsfZHN+h7OucDYTHadPAicRumZCmWYJqpbC368gGiwjNA°/ZjKS/g3X7/1nroOVtsCTcWie28Hc8t4iThmMPZaA±oJZX8n1PzR+qrz1dbgeob/L6vMuCdmye8Dlnwu14BN+xKEo7j/aK8wDhATGFgqcvvytZs5eIfgNA°/U0JmOteW0QKrez7HYfy4m18We2TjAA±oan9/1heNA°+aj9q8+YVdXCqfNA°+jd+AA±oE0gItKQNA°/wM8ZJQ//xKriC1HxDO1eMWTYBl6y5nd+kwro9ZGxZAGh4W+6OnFlQIpjsU5eU24/InaBSnxLgYhYhnQHvBAKs9b+IVlEUhbKpBUaTXFnY3BQFnvFZiji2l9O2PCBE+5+8lF1s5KYW7+UUokMTe5u7YfPWMVt7nNA°+zkMUVUINA°/IkPRK+OhIAA±ogyzsJHrSgeX3Z7fsG7gfyt5ppfrOMVp6ctZ/HUYea9+zwOiXSY2mYOAA±ocNA°/VKbQzPoSkZfg0Otj1DFzS7LR/VFKzNA°+r3/WpYJ+RhYDLFQsg+KeY86pTpod8HJo0wTDz0C+98xWRJwdTculg+OGDeYk5F9ucUqnXW9pMedEuwrFPn7zZADy8nfD0qYX6vFLdhLsyd+hnp/jAjRwURQcJaqGMigh+/agDDwMSANA°/Qr8YA/XMzfBXrO07Zo+nK30CYdki+EZ4Z3KxpC7njYrRjYmwV36sNA°+ZJIJ1Rzu+oxFvnrJOYwZvfIvi2IECINA°/PKzzE/434IC4Ltet38xfg6cwkmrKZg54Oai/gEAVvC4jTKNA°/BKt/HwNA°+ou5xFHu9njQwVOmeWAA±ozb/uXG88nFQW7Uq5TqW187eFS96Cv440jXAYEOaR7csh+AVwjZWNA°/BowCUs8sRAA±oAZBxMljeJhYUw6H+PPSewIuqes9psRSrZsrIC8XeMWolSD0jiqbS95OETjgYBCah0APVED75QNA°+gb3lOV2fiK6KS/wtwQdhMFwzNA°+1rw84kRP0Vc+hAZBDlKsvTen7qfWiTsqWK/ehfVO/wwmmetUTiolbdxGnunn8bwoc2XQb/tUvUW/oFZAJewGTxeWf5VLJF/aA±o56FUvubh/XPSRAmTZi0hGz+z3AxumtGTTPmLvwlbp9aR0KfGhgVJ4NA°+fPW68p/maA±o7MI/P0meTH65WqOSLgnaTXLGp0Oqqj3kr5U5SZz96NA°+WhmT2zaS50TOitMJp/oKu1eyrEorqiBO5JPTC80ANA°+2b8r8Ud5d4OFMqpJw0V0BlBA96NA°/OrXKCiQI+4H98m9MRS46LGwXjxS/OAPSY+oxGVQA9Kq7VBhm7uaJ6P7nQycwlcYTzYvNA°+Y4opjK3Dtni23PxISsktQ4p+4uFdnyllS6XtULKf+JpADGH3JJ471ZEmw6p/97tx6zO3JP4JsuilDBmGn7rE723qICO3dcNA°/W7NA°+dn3Amy7NA°/oHvHrTpaMIY26VmeCRt70jE0LjGRYgsQK+dUAA±oRL1TNA°+kbclvi0NA°/oyS00IgLJNA°+vW4FM2uYe9Wjnivb4iqNA°+tL6eC+d+1FXr6c1dA-aVWNA°/UYXp4zcmW2viaJDj0iIPqCPw2JlLJ3T5NA°/uddAHBi6H0wlRQRu+R5PigP7E7ZZKj7KcVNA°+oWc79NA°/RaqQSCBfvt5d1uMxkDWbh/lkku0oAlCdA-arWFFiLfxLc/7fHeKNA°/gWMRvo3gHhGAkZtZbPfqjgu8T2OtCHS1Onuuxm7IIsaOpRkjdQMH7/l6sDnlEUQryUImL1/zdBhgJJd3thuGcuRGJMTBp5UOl9QugShxhss7p9wYWmo9zzmXtjToGtwlWYcIe8SGKE/tpFU5TWZysG+uwpcC/dTSLcccgOXNA°/EmTL+x1ojTHitrp42tVEQdH0rXX+NA°/OJ1B6deGLBkf+6DE4Ymofu/oFI0xmY0KvqobGrKbLjSUNA°+TvroZvNA°+FXoY0vlomP80tXy5qaaf0m1FiiPOQxwjPE61FdkSxuYKYY0xHEBvkfpEjr2HkUeGZHtZb4cRrmfnu9R+8kYEYLwdRUbZmStXdKZStZ2KjA8ejJ2A8bVKtzIknefqBBS0QA3AUzCbcZhvm2id+Ww3BxE/na0SPukNA°+i2h7RJhZvD0JMslgyZ1j7qA-hdVyN+n4qiYExB0ypUpJLNA°+Ifh4Y/r3VrZFbBUC6AA±oQm3kaVmJbNA°/n7y6jXPhNA°+JQ7nTEyIqEuGoIDCwNA°+EGQF/HZYawR/4iSvtEhR4Owwx3RM5CVVPRk7kxtrsqCLk2Sye9UK3oSg3K5+JF5c5V5JlDOqbpHF/2BzNA°/qgnfD7BYeknO3dNA°+m3Q31JsD3lJdNA°/Z5CZwE8kx9F8OxigzuoeS2nzOhXFmOiTXMNA°+kAO5/NA°+Uj62Xj2uvLIaWdsDun1BkDWqL7yu7Oq0+wzpnBCMvGMNA°/8RpedY5WuIypVpLEUvPhY9ecijzVZRdWg0WconjiOLpfqNA°/JZFskMEzkONA°/slJmvLcnDfOQG0t8gPKxy2Z+lbj43MidMMUCdFzL8j6gWGQ35sGBYbSdyLSfYoiTD9rUyGUeGjtCNA°/gCfZqtNA°/FcqVaTwKgL8yrnf6K3VJ0wgqYvP6rjOhwyMyWWnNA°+Q78HojpIZVNA°/UfOLyQ3ahUjUG8pT6ppm4Ed1rz3Pv46spp3u17/fh6ccnvORgtaZ2lNA°/mokmPe4DbY+H8k8UJyxQlYNA°+zGeGxqfGeDcc0MNA°+VI2C0hePivYyD6tExbhtTv5eDSHqunTX5RqLraA±o9wh6fGtsOp6UAaejdA-a1kfszDtuHsOrPk0VeFLNA°/aCBlgcgFl5ej8NA°+Vplb5WX0is4odA-a8AfWBbC5mIFEF6iRRLtmq7KRXL/zqRZEwgsZHwbhnE9zKxOGWcNA°/4wDC5CPh+CyDbMPMRmAgjHxRd5sW4H6dPzVPM59hjVBL2A9NA°++ffDkMz8NA°+4oXSQnsMM8+WSyBWG9xVUTi+sZbH3yVprdA-aqmQV0tLr/Tvwu714DkZrTFXmnLn5tpErOHZfjto50e4SU/YFfkgtIzAzk+dA-aopmLQ1tdTzxNA°+FIji3qarH6tGxpBYfTTcOclbR+f9tp7c+lAXP/lQo5tVsgaU/ds/Gg6PESbOfeen22+gS1UFAR7qsZfKFxKFwApQNA°+iBTxJfn2MPMoeFciDRsybcXnzmgGOrztZoXgg492pEInZLc2Mu/GfLu4znf2LrII5/5J9iqQxSxcw2gLQ/laDCcxdA-ag3Efsh8XT+dhE3Gms59FyCUxRW1PrQj6Dqyd4GiiWskAA±oWPm+B/8/T0GnuG3lgEJmOEqID536qOMAA±oM/WowSsDXIY2SMD2azWKeljYTIKD4yvPzSlKqzT4B2Wiaai8xLWQT+meBcX6L1xVMt3PJZ6O6jxoiKpcc9p/LpDj22rce07OXILYAA±oTh/oe2SIi9m+kfHhdweQQBZOJTwF8evmQdQ+cGenoLliAo6JaIPNA°/MwEsNA°+ZWX+cBX7aTpBlZ228hGz5KrrRVGtZ7G1FtmFVCqqdWwDD7G3JhX8mW9NA°++U9T2v/fLwA5gjH79Yd6+qsYXScFLkL7OR9wwjax0wFRDhKWQ73p0UNA°/u0eU/6NA°+lj54m07K18D7M1RnsHhan2lKdQrcGFBfFvf1ucUNA°/1w7oi3YnxqoXdEZwyeyOIcF2yrdR7UJq10P66QCpr8Z8nQRHgAv/v0nRc+0Hva/8v7Yx+DodvyrlSyIURLMLj7Yp9uG57u5QJbu9oSLAGQFx+dFfGyq+p7z1cDj9bZpM3dA-aTtMR2/m9TyCiLI3tRHw20dQwzmuqRLQZEm+ZTD6JZ9YHiot93+oZ43TPDNA°/PZG6pELw9UMZD2Vve1JkFKQoOTTwG/zyBMUvCQIDgEiS1Me7As53PswmJHj4fg1K8G+jaPXPGwk7Tx73/DZNA°/+NA°/WeynXxePPb3Kh5mh4ooxxD6A5VnXg8G1eAyxOme9wA7HWhJ+eXH8z8ni6lwjoJE1lhM6p8tckJ1mMx9L6obQ192MlgaqyfmTTkVUjtTZFP1YBz6UPFMMNA°+FYoR9SdQdbzFIJyzmAdU09DUTLQQS+l1aMfzDUQ+2++HHI+K8E+p5qX72b/mScLojjsqtRGfePy/er9UZ2DRT+59kNA°+WaA±ocmg3F6vGwnjXJ+HcxUstuk0VXa/3Qsdzr7XqoLyFGx6Xm43GhipcuRAA±obVs2mxSLK4nYrYAycOwQTWM1c3cUYNA°+E06PTtKtUvDuWqjkWYAA±oD+RBq5Wt1CHKFxOU48mx2UydcvvU2rVlHjsgy+GMU/DYlF1r/WNA°+mII1qu47ek2MARtNA°/ioUBGXojAGuxWj5rFnvvb3LQcMFUx6uLYBisjH1mUYahCv3Wq0X8EI3eFYBmEQ5sKG63FVL7miJXRZCjlAt4OzdA-aNA°+YEU32CXve01Zq4ieipcsFeicLS9pnQ1ZuBJw8rwlRX09zp0SPKVFcwaA±o/eI1wIwiWRTNA°/LHNA°/K4eYzQvmdCMeyowpmkMEmhAY/8f6HbXVpgP+v+u2mpfGPI6xpwYqAvMKCuIcShHyhhwSy+jim7v8Ke6c91igqKA/vb84isMm3KkvYzZZGh4CL1NA°++e1f9BysVryVWgofnDyTzRAA±o1MZih4DdfH/ojXKblOOaBd7+LDULaeAvW8az+cbOpLPxCU16UcO/ioCqvEKH5WY1vOu9eWjJbTI9xERirxOrwa1jif42M+pqDNA°/CyHMo6t2W0523RrC9O4P4Bmz/p0CVQVafm2YDDI/ahV3/0ygka7Sbv+RrQIorasXfRX4PFfQ1m85AuAlV+zESI8nDbwjn+rXMWcoOZu4OPTNA°+oH71FBAA±o4jAr6YRzvOrvMtesBt+w39lTmhkdveyPvTJkddokDjjYDsP+NA°/kIAGc9CHROaC4NA°+wgjE6Y8mawUx/VI3dbZ+9En+4duGQ7cORo/RW+A51ZFBZOl5tRQ+ePrbG2WWbNA°+C+sKIvB+O0k8knevshVaaL/KVJeWPTEbecVi3TIg2srDRzFI+cau2rcDr/Q48bQGVcogA5DzpQCtsPyNA°/3qG2Cr1AfxjNA°+k5/PvMEr/vOWeyahB//j4+jxjL1E8W0YLp2y91arjgck7WtdhHKtgU5OYe/IF2Qb5COImX5s6Z/kUDQBUuk2gZZGrzhtQ58vwJNA°/ZrLE1gODUIN/iSbiPCy+hG/VtWhCCUMifYwPvwpsvDqIUPOznpeM2b2J2BTQl+s54NA°+S68i4r7MZso2mf7bXC4QIbvYSNA°/S1UH0K0m47OkKEHYsu/xryc02grlDldfWIVEfn6EMlhU+PkBinXP9aO7CT4Bvpa0mkRpx/W+GKZhDHgso9dOPeYxmNA°+9mwv5mK+k2ctmqfWWvbmn7GBSFmgcw+ILeUfdA-aVO7+ck9Ae1E3Zm0PgUBDLuNA°/uEqJWE9Cy/m7pyJb0lWXY5yRPKyraiiINA°+Sl6maNA°/nYfneS6PLh7aji+/IVZDFZAA±oBDJc4wudDnDgnJqwhsT4bJ4i3ExJVMQZQ4/xsln3QcdeSuqurA-/RnIgQuOiCTshi5dA-avNA°+Z2SFekut1j0egDjeUhvJRrHzJSARVOqX+FnPeqyhnXEhCH1BShYgx6dA-aibWsuZNA°+smfFuPXviSarOT58euy9lzq6vOaOiNA°+rfUd+e3cR8QS39GHFdcoWVtBk29VHRgySD6M/d91cl2xeyqY6gNA°+4+5/KHGmnUAqQTJESR9JqP2NA°/XE49GZ/SJOUm14PdgCfNA°/xTs+BIOdA-aYycEE3dnSAB1Lp/qu9X4Wnwcv9MDaKWjFOTYd0pePlk0YOR2Ipug/UZogTZ5qpEbHt2aA±oEzGTCYYEuyGzJT+938p53CyELK1AcNA°+6g8dyOpc29eWP5yWe4qbFBzHgNA°+TBLnp2Sdp3S+eqAlRvBTSLWt9LtqXfEszXcXv9Qirh7/UXzGfxU17NA°/YnRDVq5O2IrxkFwoj71tKr0IhUwvNA°/0sIoIaA±oev491U/inh97NA°/qsWY662LVTP6jFY5cIOwUqJ96yA-O6Fm+7aHV9Llva5GD6he1Syz17zdA-aJUwbPnwZHSYBqu/Y9V1Ws+SA82ycUl41k+/wooetKoMovP5VfS9RIwzapyTZrSML0vInNA°+had1HxICGg9NA°/taPe5O9lemANA°+M5DkeWH3yPwFeZpEOiDrWHO5lLQZUdA-akg13FpXpGKLO1KNA°+J26Ul++Y5GCAA±oDMp1rS+xNA°+Ksn/pYRHBSLGtMdycSufY+XTJJwrsVxli+qMVt+/Iye5xVezprQGeZqatwOC64Gk3J7MbtSL3p02TtWxYQOh3hpslG/qi5ENA°/EKHaA±oumH1b6yhaugpS+2xkFlfnidA-a7eOy8QuhUiNA°/KKh0WngCa6KMZMBDyOZYhLkDOwBpzOXbvgw0E6elV9QIRxVy9Sl6OwmQbgwczJn67jCBK+eP78vBAd15ByM++0QRzsAA±oB7pCW5TudRbLS4CFEwHwU4NA°/2R3UGyqUUYNA°/nun4Ww1WudnQ+4XM6WWFNA°+yFYRs9glBhKJ3qh7EB+pqTXRcCAb/E9yZqNA°++vzCPD3PRWE/kDunqradhjL2gWQFCtGu3ADvd70B0YuUzb8PK4u1mDKx4lkBRb2KROT8tEOlJZqVNA°+sAA±oKX1Ok7FkXV8h7kNA°/RiO3T7qDw3ExUb1/MNA°+Z68APAGCCBFDBCMrXn+acNA°+MGHdLzVR5p7+HKRv/LFJ9nbVPeuPW4VNA°/PJTI9Yf8jLn1s6TkvJlP/kIvOPs3oHRCZH+e5hP6uzoFvCVAA±oK4mGTNA°/0FoqR8JEh0jdRMQuM1tZiiNA°/VCNA°+Sa7hkjmclLa+sA8YkguAU/0rSNA°/MzjL/L7eF7amm1dA-aRP6IeNA°/7OmJNA°+/ucpS2BX+iEipRLAaMy809HWAp+NA°/xzWqIRB8DuZE8fshQNA°+ZQ6ikz+ktHwA2fYf/0+ofNA°+MKfNA°/XXuJbXsEAkaW9JTNA°+wc6Dsf1mMEGLL5Di4ttSMJTJ8cPTX04iQcs+lbD+NA°+/dWf22tuU4nCpB/ycJP9VV/knkHO85CmEm/7Ky+9uFz/YNA°+c8PNA°/bi7xw+/5+rvSJhnkDNA°/4pYbJRWPa7vVijcCq1gaVKWnlm0hD1Cyu8RNA°/x/e/KDQsgTqc2+UBGhX1aOVVOYDGOK0rFtUQ3KR+x2cncqkuZeFPLNA°+PNA°/imiAA±oTYuCF35lXL9VuPwY/CF/NA°+5lyqIBJROXuvds803GW2VYY0ReoEjEdcC98qU9gBLEWW5cPcBwu30V5mVmpdfO/XuszGOPalTIycJnRNA°+pfrF6laA±ocYh7F2JEesKeWffYD0CnYufdNA°+ySFbMp2cF931pqmcEtgdU7PKpbosL6ikeNA°+bqpg7WbbJyynTvlUouKJ198uptYxKieBJshVl8Gs2hZdvbG7lHd4AyW8pMRdK5+F1VKsNA°+szdsnG8zZkn28ebYu3wd55WREbY1wvUvCZ0Ltv2NA°/AA±oCFIwv45EyqDU4cRpCG335CYtAWVznp5esGGFIH45hgTrRlAr+NA°/aurI5L51pOgJArY5bU3rWO85+u5Zy+C3TfoT6iyV/AwOdA-a04dU1pr9yQbGL7SCEWJk4t/v5d10vn/KMN+17zzYNA°/fXYnILEUUdA-aOuRIveRnush6fwZ1KYR8cVfEcm1BQdPLpR4eEiO+7giSycmy+f4zGoDHby5IyStpfclIwE1x/JmDMJax/9hrKfNA°/9OYuwjvs7QQQoh4Oq6gm/q+oD9LYl25ZSWc2DXtUkP5zEikqaOvNA°/PAA±omrQAZtvtpqJ+NA°+kLRn7XubgHde+nttjEsoXDJwUHIiK1hCtuk3ZGDMkMmHipa6ALHb99JvtCf2BQPL7Eqzv8fUjX8k/1ichQD+v1p5Wg8btNA°+jGyITosjYDAKftKWRBrkaQUT2U2V+L4H7+x3uYJk6kPBrE3u6Ucij7fZnaA±o+7M3CPZb5GMXVsB1rJgPdA-aj+IFBFMgjZm5/itftPNA°+zBv7FTr3vKpJpG2v9knSf8vkUx3ksRg611wkoPD4vMZqFWxsZDdA-aHZBC1/MHmPxmzav1ti2Fmp70pgR0Iji3wUtSyqHLepQjKBLsfpS9epwUhCxIJO9/I/K1KiqTkLk1lg3Js5p3bV4QCLdA-adD13uEQZp8BbYrMdNA°+1+Eo3hrujFHu/oi7eyuYa/FCmRH/oVbOUiqyHXt+xZvXJ43YUfwu2loy8hpLJpWq/svWuv6v1oBU+YVo3902Bp8Ffbb40maTUcJP01fQTJRFYJ+gLKaxeGYOMOwkcALkQeFIk7dA-auujR+OJdA-acYpePcZXWdYAv2e5VeMSeKh0T+AmC/t5/03ns+6P67rvJcrX+3aFGhfAi4WxQskt+gkte1QEl/9LW82R+EqBrl27/uuCrDzppUkBCT+naA±oy+7FMJASZ67tYOnJvp1BhLspcY5v4q+aj24yGgxnBV7bwOz5jNA°+OhS8jlDDNA°+56bQV0rEBwO62f4XYoWjDerXVZ78Vf94o2ZC0oCg7XTkbB0oy1pKG34bpRnfRCqseb/J03sjInUOA0murVcs0cHNA°+AlNA°/JbPryAA±oVXULeSU6tepBwf/RarsyeaV4k/RrtVRLTYvR6+aC1JEmsEOIw/c+m8uR7Y3jnEHhXZvkTxc047NA°/FQ4P5XiFPG5MeTZohQmRSHdM+P22DzCsN+paEHVy7+4jy70NA°+ZcBXoJk6ZasZJNA°/GpQwCuYY8LtEYSyqwrjhs4QHuWmbS4kzORTVRYIrQaqpp9x+hnOt62M2G6aA±o7zAOvbgIeNA°+tNA°+KeDTNA°/ZBkWcm1T5WBg5DMfWGzIApbcNA°/qwf4500IPJ5QVjMQjWzqtcP1FFbXk3XMCKiqAnp6gG/iclNA°/QPfMZ5Tc3SqSDCJNA°+Gls5ywzB6n+uCUk1sIU2uAA±ovxf/hyfleSrULqTnVyozjil2rfh18FMHs2YH4bLQf2CZKDAyzrBCW6F+yCCkx8ZsVXQMpZWGUe+pcRG/DnXbEcaA±oMhi6Q99cLRC67BevVxVlfWcHP9mZ6DzkOqZZhIAgIW+BVjrL67mntsbsMnWspSGwCQL7ccCiGkwEkxlR2mhx/VYuV3OQM23XH8NA°+AA±oAtP3hrMLwKvibieywWDL1cM29mtAVjMBDeRNA°+XccQ6HCTyeSF8e6C1L5ZF6LboJRURYayVH1fEBZrPMvMCQ3hxRyaFW01/8K5K/eoZTHQl3vOhs2ekkl4xER9OKfyZBVxTsTsBn4L8AVP9cuZAhAR4qHNA°+x0HEgtiAHyvQ0/8RIXAA±oAF7lMeg1GLwtIfSENA°+Ak4NA°/yfvilUt76m0cCvAA±o8j5pNA°+tfg8bQPo21Cs0bDvGAP8KnGmJbURi4a/EEp+svmFu/76FQSvPDLbBqUkJrm+RUrjY9aiZK8M5AeuA-q9uKw+SemgVDgXiee8frIR30Lg2QVswr759Rv2NA°/Zyt2Qpg1zzj/y8250yMHBfWDbytfXz/1C7751wbQK21EYZFH41yrPx4R+xeMVeKDgatgUwgCI4t1rAuum+CHOlkZw1NA°+xn7eMyaXLxdXDP/jXcFafUn4NA°+4PIQ/A4zh2NA°/k5jBmwV5wtXjQS8ncdNA°++hXGiETAa2+FKx7XVpnyJnnefGmBEKR/rME0c4+ZWQ9L2oypEyvXLKIf1vW4UhyW+ZbjuNA°/ZIAvmhwm9bncmK7nJ/uJWUeJ7CMpr2bPhPtYdU8PihQ4VoEMHzk2mOhpuuYKPKD+iBHMI9ovmPRbHhqILm5pEg9U6GmPQNA°+tPVMZmDEOqebXQ+y5kU99eI9FEhJpS9lkIj/UAjx3j6g7sEKJaxFxaVckRgZdMzgwe7iNA°+vtqn+KwCHesv2YgQ314/F5dBfoBQpQP33nwyMCFNA°+a3EVLh7ZRhdleLetGpcH8AK+aQJgFp9he97c2CZE5Gu74kk/OUmmH2BlAZsdsJO0e4lVCciNA°/M2CxoFmWflLjlaVrlP9HXgAO/FM2r4aZErfz1Op8ZyNA°/+0mRwh3BlW3/ZhR9rcgb2w+z1zNA°/UKug+2UxNA°/wJMDM0UYOq3sq4jXcNA°+L/4TdhInGGcKtnKTL4Td4JViGSM2hC+4d99/NA°/P3GnobaAOAm1CGMM+1s9Ux8QVjyCowrwuqRtLpI2qPvMaA±oqOJW92x+ml0ONA°+IRyxFfO9LQAw+vF/XctrqjTJXNA°+yMkcnXWhJb5Gf6AKf6umaawEMihGNA°/ThKO6yIJl7Zn6tULbKEt9Y6duIuEL5sTkxMFkXcEF1kwhLbmtUScZ4Wo1XLL9+llgL5s03rEwoNA°+S5J4YcSKUOmntd8tRvLi+swtHqrNA°+KIARpiYDZHMI/U0KVnH1WAaQ7GITwgIQ43NA°/BJsEsuldJ7e2g4m9gBjEfLxZBp0zZIUNA°/VpVvm6dA-ai+NA°+ebq6PQEYrxFyLi8IqEpilIulBF6kUMiWbJPCMJECzkBegY57tuuPB5HZdA-amg9pWxTMk/p3fP4iNA°+ero5zq0jIs+yU45q8UhlhfJGzHEi1VteNA°/5Mp4Ri3Mv9+UHBEClXLFPc5lDYKmsfUQDsgZFrpkYlv3XJQ1ajE4JvkZV46f269+LtnPo/x3qNA°/bRuT796LdA-aTtUNA°/32NA°/qkC107V/0a2/X30ulodp+xJBDNA°+8tNA°+ioUdA-aA±oTkNA°/RF2HFgj5cLkgvdhi0LBf7G/hW4jUCvvH9RxpTCoLVsBJSQrU1vClaSLevaUsINA°/0hq/+T3eRG3QB/Oh0ymYinxdA-a6V7BFBbtPlsvuOZPqkElPeIjgl0PnzbjnxADv3DyR+Wt7Zy1m1wXD/IjIIuF4agQKFnrCy+ZQdEWXRQJ3ZUgMlpJ4j46xgs68K51G/pZZBblwEZwBDCf4bZLDpjrNA°/hdZlDsMkjeww3lPZ1U03jOSL7yTUT+O5VSl7X80Z4QS/F9xIqiC7NA°+Se8OXNA°//Ofe4Szerja7bmtIV67HZTkgqa3z1Gb20nr47N/lDm2BlJ1AnD5QJ3JlWFL0BadAfAMkW3R/k+uNA°+jcXM5V63rtNA°+6J5kMGypRS+atvqH/ORVDxsv21UdLZ6MRT5cC4f5cr+nd+MKMSrdBM4TALh/QfYO0BTHilA4tQbfdu/gmnUWm8NA°/8REOdA-asJ1BlcZH3FxVu+IL5SxRGvi4J6ndaSKlrdhYZpHFTeXRg9Mtk+T7TZXR27a8VN+9BHgo7+Rbc79WDAObzOzTkhxgxJ1Og+VW2M06PDfRNA°/I9D6hqTEtc8TU4RVyT3G7yE6QQ28zxDeAA±o7yf9RnM2+DMUu2y+JoRw60IDXlXlL+HRaA±onSMeL9WCdSD1extPrEBQESOJAgkP1XNA°+Fs46W9dA-aw2ekhbglI2I9MXhlQIpPwQyebUgM+gLDwWV4YmUkDhdCgjJYDUh3bzvUFFxA6sb6YwGVW5myHw43Rnb/iw/XSxOaBa/o3fqBRTdUIuDXvjCl06y4FTOmiG+EIdV++GlT88c3MzXjmBl2KaA±oe7Gv+K9ph1l48in0evvaINA°/PP88MNA°+DSNA°+WpOU3T7BDaA±oQt9f3be9njuxck2JT+sLq/ibvGD1gsGXYBTLD5mgvfUJHs5iAl+VqNA°+0ICRvFRA/VmJZiycPvFPIhLc2q8KXJMfhql+xaA±oPVQPEZhARH2Ku96HqzqWPMzRsP1MxvHkZtHLhFLMEI/xU7CISrbsFHSHOEM0cXXtHLQ8S2mLtg7ZB3YyWjUU0+86e46aJDDi8P5+86Sj/Cq1zyMZuglgYyqHDJWd5pPzrtpVACmDmGB9f7MrAVRjTVuiYGF5yQVTJRDVl7EC5NA°/F1YPnCTugptxGqhgZfmqoSVtqRMPlKm90i9azHIss+7xFgdt7Znhp3Yn1kRBdy1/aA±oVG+2tEo8zGPer0Ag2UKbEZu5aDxJZBVihbpYzqnNA°/6nMTQdP7+25ngARIdA-asjM/OUtK7doZKWNA°/YaQibqKIPMWjRxdNA°+JqwUBx843bk0OJ0NA°+HzmEMD2PtDvMrfGVHqlPb2qSj0V+3hNA°+CHrznvL051THbjx8fWvW+ESC9KHuzaJHALm/HGGvNA°/jcedA-asyt1kOR+5kkghcdp80i7BXhNA°+0AmcbiPbrrDzz+XXcCiWl7ixrRKGFxYCGJjK9vyThAKvYn7Epbhr/wKmK+caA±opbC7lrUb6fc+8A4Ea4OCXYycGNA°+HY8u9l3yohRNA°+AnLW72wj3W6p7+Rgrg+rlzlxAA±o06NA°+ci99BfDRuu311gChreKDWqpnXvDTQWdnS/H+wUY8c8VuLK2sbOJYB2avqBIsJG4h+kUG0ShTxjUS29hT5c4yUHyL1iRBtQGXkCxS/TXVAA±oQvMBkr3Az5NA°+lE4vf/MGe6q7ODXxZFE3UqMEchlkxXnLtDH6/pnV8aSMxLY9WvMMk1BVlUCvVZNA°/4uiKrdwCHhEBzfPw4XcM0zCzSRG/MGQOeMMtFX1fswzGkTU2wklW5SBPKWAJETHJI1GFMm+R/4sFLeq6JHl4KRVsNA°+vm2kk+jvSaAOQb+pgB8Mv7SixmFY8gEQ1ugZYU2nLFNA°+XOY6GtJ4B4GL22Suox0DcqbZEeUjKdjlSEDYVZ1Lc7c08kdxzvt/pBsW39s8AA±osK/E2IFAJkUTGw7fLQ4XJyyO/NA°+XyHd4I3MUkOR7tzNA°+H141WDfs5tBzhaSF35ZkPEwVYW/fM8WSMW/SXXYtNA°/PwGbdUZdtoM8ZSumq5tFYVjTTyGH5vV1WuPd2uf0LT0VoZLQ3uxfXsOR7P5zP7pFANA°+keEIwpSlYnZt1EhwxJ8Xyj32Qjpi3NA°++6GRW339EqxK0Li37roipCpjnoczTneVk3a9n6YkQye3XG0TVJWK4GIKzFNA°+UdBMuV3bDkKbhG1d+NA°/z6TF6WRAlaJ5/lRfPRIcLCmiAGD5il/OfUu/dTGJTD89D0kJyPQ8ZDVU8whdyRj3JOdWDhlVQk0ruWZEBuEoDGzNA°/Ekx/CMuSv5mB6L4/qZ7Anc1ku2OxwMeuCOYHg9A-YCT8TcKRksf/CQqwkZSnV4428mwxaA±oJKn5hLIUeNA°+eisU6bHy1HU1Kh8rf8peotQ0bYBB+X0aMivQKhUwXpS/sW2ThiTfDOECwqkeVBQlCB/LfbK8SLbCF8RYKl9IpKYk7QPDnxXIQVpMj0WYgAGgaNA°/0xsF1TEHWVlVTNA°+NA°+xFdA-aKU0m++sOIgeMFJiA2a/t+2Rcvg6M/VNA°+ZMcVjsbdDNA°/U5Ro9E/JUfBxsGlBQY3g75l4n2qepb9C+5FR/GsChIm9qF0A6vSgIjUVyPTnZwSw/Xmvy41J0LbwXiztz1FpB2bGZvF8wgsuLmDPuT6BhhHPsUKgnq6m0jnLiHBjyTbpI6T3ixNA°+oCWGbnqpjH1x3FaQfPi6WGktBi+hMsqBgs0odDv9Wq3GSylVy9IK6/7t4XXbyGVo/f5RUSCiJh54QTNA°+xqohsWrY6gy+RLz4Q1xX3qrIQ2uKrgG9Ldyto69+XFj9ELjXO1H5qzbYxt/O3MNA°+9KK4L/KQKl4SJQIhdA-aC2wxNA°+mEERupCM7gGqqsqJ6PfmEndmmWItjSQ4l4wnLzHlzMQnYMlrBJMWq3L/yIrlpQ1LtuPVGYR1yEHSt9zEGNA°+3Rs5pslQehufPVAYOb0xd/CCQzM9SaA±oWO7BXNA°+rWz0Vv2pMooGq3Ppqq/7HYvngDiJFiEC9mMehDaIj+NA°+R5x92E0X3YHak+/Bz5x76UOj5QgXMgt8miv1VaNA°/pconwXcKBqjW8lljJlrXvmoFeJ5643YbxHkuRt5Vr5ma5Gkqdy6RcCnh9cAqp6hHgyJ5tewKhZOdZfJTe+VJpeBDMuOMLxKD306qvjQkDYoOwDwGW+w928iAnkHVJksCc4L05MPrTMC5wbqua1A3fYfLzTpzdmdnNA°/bnmvzMm975p6b7VjDLFQT3O+rCANA°+L+egdnN/sqEKREYscGDdA-a6dd/0ICquu17+NA°/1iKFdA-acdNA°/K49cCcGrj+nl2/C3u3wCXI7NA°+lqaksB68NA°+Wanb97xAQFCWEI19i2z2ORNA°+HbZqawXd8xzhXI4xEKwyy9VVPtBhnm0ftMiGkDnUYb2cbxtPlg+/K8pOCfcFe1/ai8pIAuHl23sucRMYfsnbGt/aQBcMHYpeTtSwLZ6spNA°+oTQT8UyvNA°/p+71pUZ30LZhYv7Mmz45jJUfNA°/eRpZWprSioBkcDag1/fSoecKM6B143llDCR/xGugG0y3p7LHJw9TU8VBV619cmdST0ZwCwOdb8FbGe77FM3FbkpBmOwMZhP4tSDEg8Q8A+bk6bY1EnbrMZaA±o5YZ9U4+oc5q1xC8bmsUuWw7VzoU2MfG/0Vwph17Cl2JclaA-OMHhqn8QhtLdWOHbvvC1bzM2jLB7OLk6/xahkLFbQLkSsTjDH6/4/z4sJ2vNA°+tV5RqsMH644gUtjaDKOfklFja0NA°/nGYbMssqo3kcSICZBeoxim4btmOw5o7yIwrcisCRO1MXwDi6oY7M1K8Z0Y2D3bhtefKN/pbBEqCHK2Fh4eAIwSFWYGITNA°+VOu8Cbv/xNA°+qTqIFx+rCl74uJVWzDl3Wcg9wrQgiGxZ6wB+8bV+vHBHrv54Ys6VzhFtQ/DpZDloQTaONA°/ixGlY034CCxY2FWWicjG080Rr1SVwViqQybPWIrO4CpLhOA6EIFkkR+NA°/LRCjMhVABO80tWlw4Y9JrsUAjtWZ0H7BNA°/YCaysnZPCSry/1ajryhMRWhtlb0kkiDbD2EvleQRDCysMTjYxlRcL9nnVE/brw9y1cnxGuBMdk1zvbNA°+uyMS4rkh7qTntY5vxCorlXgafYUI1RwL+urTtK3mCAxaappf7tNA°+hR4aA±odDBOPgMtDfHG0xKZNA°+yBiJD4dzj55+qMwH3YVKEG3LaWdZrcZQbYYvXs7BzwQ01HeHi1+VTtPpOcJjM0icdA-ajfJZDFH78xKf25IuTzwMMJ/K58KSr38mUUT7metUEJ+wjhsInejDbsQSdb2Xne9GFfR4cYcA+JFu0HypXUYSqxS3K6OpLQT2kQc2NA°+sxFGruep+81I3JZY3MI+ojHHR5IgO+XgrCAq+RqXbwQD8Ib+8iUFVsHRdWD/WuHPNA°/w3YeIaHmCg3+GM/KjxHpY44XY0ki0AA±oZR1gbhbNA°/nHAoKv4iLU9T9qFRucmkJzLVyUDkFLFutAEhizqrRORBy7B7azpD8qRH+nlnoAJf9LvdFw4ffZIDtfupIlGxJ4g6c5UIj/7US80NA°/dA-a6OJkdzRShTbivWQFbjhvlmnnuNA°+kmQiaLOPR0+Jku7iqIJgf+AAAwIWLrD5u+ENA°/d2oZYZApCR9tB0EzUk1ZGlrISrLh4kCSMyV8SOETYnbbYSlg6z3GKlYHdHL4M7mVdb8v/jnRhpjiJTavne5Rb2AA9xr/htPG+ZcupsJKWHbCaS0ydA-a6km+XmFJkYWlDyO6Qgh7RUQAupq+0ZrxqenZg9Y/sjbPNA°/Ah4uaxK1C5k6hi5Kkq2leJYfq7tBYMFV96+AqZ6xgLLVqSAMIHeTAevf5WmOC7/FVCyfUxXH8KXvtKNA°+CPukoTt8HtmbjTIIKaelexIraTyw7hr8aMuUIZwxAc9THx7KIqr5uRYOhy8IcEIbaR+xm6S4GW7CGGQxo8YHlgpnHycJLO6gzHRCYLB6+RBQCT+eAepfwhjlimr1PitQx/a36YBu67OaC2YGWD5fs5IXtHjgE8DJURFJuU5pLHsIMGS9/G8ekvzHK1gkWgRY0XmL9KZjL2YKPzk1qxGhsENA°+ED1gGwZVbnbKVDa1KdA-akGNA°/nvwJiWzk4JSuSz6MMCjnsADKKG6xtb2DNA°/JthTPVmntigdA-akTGAEvqDYJSUv7zCtydc+g+xZ1HTyJi2LshuK+GbzmZlLzMLV+KU6qWjgTER8imURWkMNA°/cyDxM6pNA°/pyWJex0jHFndYLw1b4ph3m3LUmXh4fsBlWtwPf2sEINA°+KJE9YGK/DJbb7AA±oMh/wXfCdo4PJSxrSNA°/VfJEmVBbtn2e8ZnEf9B4ko0vTAwCqbGOqj5aWWUUDpxHtbIAbuuQfqBNA°+C0JWgvHrGf9GZAA±ovnNA°+wOd5RkiAkOVDJEY09zcJNA°" alt="E.B.B. Pedro Felipe LedA-a">
+      </div>
+      <div class="brand-text">
+        <div class="school-name">E.B.B. "Pedro Felipe LedA-a"</div>
+        <div class="school-sub">Control de Constancias</div>
+      </div>
+    </div>
+    <nav>
+      <a href="pedro-felipe-ledA-a.html">Volver al Inicio</a>
+      <button class="logout-btn" id="logoutBtn">Cerrar SesiA3n</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="welcome-bar">
+    <div>
+      <h2>Bienvenido/a, <span id="userNA°">CaA±o...</span></h2>
+      <p style="font-size: 0.9rem; margin-top: 4px; opacity: 0.9;">GeneraA±or oficial de documentos escolares en lA-nea.</p>
+    </div>
+    <div class="role-badge">
+      <span>dYZ"</span> <span id="userRole">Rol</span>
+    </div>
+  </div>
+
+  <div class="portal-grid">
+    <!-- ConfiguraA±on Form -->
+    <div class="form-panel">
+      <h3>DaA±os de la Constancia</h3>
+      
+      <div class="form-group" style="margin-top: 15px;">
+        <label for="certType">Tipo de Documento</label>
+        <select id="certType">
+          <option value="estudio">Constancia de Estudio</option>
+          <option value="condA-a">Constancia de CondA-a</option>
+          <option value="inscripcion">Constancia de InscripciA3n</option>
+          <option value="aA±on">Constancia de AceptaciA3n</option>
+          <option value="asistencia">Constancia de Asistencia</option>
+          <option value="laA±ocial">Constancia de LaA±or Social</option>
+          <option value="retiro">Constancia de Retiro</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="studentNA°">NA° Completo del EstudA-ante</label>
+        <input type="text" id="studentNA°" plaA±older="Ej. Pedro Felipe LedA-a">
+      </div>
+
+      <div class="form-group">
+        <label for="studentId">CAcdA-a de IdA-ad o Escolar</label>
+        <input type="text" id="studentId" plaA±older="Ej. V-32.456.789 o Escolar">
+      </div>
+
+      <div class="form-group">
+        <label for="studA-ade">AA±o</label>
+        <select id="studA-ade">
+          <option value="1er">1er AA±o</option>
+          <option value="2do">2do AA±o</option>
+          <option value="3er">3er AA±o</option>
+          <option value="4to">4to AA±o</option>
+          <option value="5to">5to AA±o</option>
+          <option value="6to">6to AA±o</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="studentSection">SecciA3n</label>
+        <input type="text" id="studentSection" plaA±older="Ej. A, B, U..." value="A">
+      </div>
+
+      <div class="form-group">
+        <label for="schoolYear">AA±o Escolar</label>
+        <input type="text" id="schoolYear" value="2025-2026">
+      </div>
+
+      <button class="print-aA±on-btn" id="printBtn">
+        <span>dY-"ï,?</span> Imprimir / Guardar PDF
+      </button>
+    </div>
+
+    <!-- Live Document Preview -->
+    <div class="preview-container">
+      <div class="preview-header-label">Vista Previa del Documento Oficial</div>
+      
+      <div class="document-sheet" id="printArea">
+        <!-- Official Header -->
+        <div class="doc-header">
+          <div class="doc-logo">
+            <img src="dA-a:image/webp;base64,UklGRnhqAA±oyIhJ/T7EJAPCWNA°/HA5ir0G8JB/wOy83NA°/K/t7+RvzIWR/F/3f9Y/k58yuwjtLzDeiv/L/kvy3+Y//C9WX6I/6n56/Qh+qf+O/w37x/4z4wf2597P+D/7XqZ/pH+G/Zr3ZvTL/e/UQ/r3+v///ZB+iJ5dP7rfEF+5/7p+1B/+9Yt82/278jfer8e/Uv73/Zf7//u/756g/kH0X91/vX+X/0v+E/+X+t+N//Q8RXYvmd/Jvtz+S/u3+Y/4f+D+Zn8t/w/9D+Ofo78fP9X/GewL+Tfzf/G/mH/e/3c94X++7km3H+79Qj3X+n/7b/C/57/zf5r4cPi/9T/iPx3+FvsJ/svuh+wH+jf07/P/3L98P8V///e9/73jJfjP+R/3PcC/nv9w/8v98/1v7R/Tr/cf+r/afmL7tv0z/Tf+f/Vflx9iH86/tn/M/xf5VeDX0kzVC9LOIoXwTioNA°/lBTUAR8JXstlr0304pqAPcOT/nFJOV08NA°//eELn29M16pNA°+2KafYEbbf/GWXXsthqjl24Y/peWCY5RFX04ppFfuXVscXYf20cO/5O/misuozy/wwLf2bnmhve1d1Ru2ipYf/6TNA°/59scQ6tRYPiaYGkMh1MhDFmdA-agDyQ4RdNA°+oDvnYScXnllVqyupf9fPYCs0b+LJDjhI01sjckkYR0Q/ut6j5aOg1CX1IOc1shHi9BAuvUSes6m4/EX8Rj3bzRuSXbApU//3EcUcM5BEdCxQT9u34FbeXLRZQ2/P8wDINA°+HQl4h9UspkMxPB2+/7s4jsj3Dk/Q13ZUhSpcnDeVdWxCu96or297Jj17NA°/9U15wrpjvypNA°+jp/x18nyVQv9qjNA°/QvGs19vhvZl7OlvwajcgVLXS3523ROF7cvQ2ArHJBygg46ex6OvivnPQm/NA°+ZUcp+x0MnmJAaaMUUUMTiYGUtLISgWvPS7RYwz40TDc2d0krlm+5JENA°/xY64MI5j7cIjWVbOwqNA°+kFYnsaA±o7Hxe7pe67FQDHPSG9QRnfkUdA-a+F/+JZBbKsz7ass/haC/27fg05eo0UglX1lqWdA-anPkNA°/TzIbNA°+34NA°+dUnOubQC5SsDRUVcuvmWjGjR/HNA°/bt9Q+CgSxcSYVGludA-adxDPlt8ypZP8F+ft8RTqfhO9B2kb8M2KGOWAkgDz4lzH21H3FONA°+ncgHy0/9IJZA+jA/ogQow8wVcysM0FW00eflhW9Y0vG3LfNA°/P27fg2bM2cjK4Z0eEo9ZlScivBUI6oTce1aA±oAGpHseyuHvU8SKMea6E5QLiRg/OyGcz13//Tb8glq0+v4R+3m9D2/ewFbZd7FvrlsQ5dlzBFlFBiNA°+W4oLW+ofye4comfrE6D5B3tYS77t+DZpjpe5YmstSQ/DcWaB8ZK8gHUtvGx+YbhlHoGG1yEmjLDuG9iPG/1esHAM4v4nG31mbr9YNA°/D1IcJ1fsUHjn0L5FwgUYT9KfLWRY2Hqjcf/5zSJ5z2kdA-aSJZwDBt3wfTRfdvwbNA°+ggW5MmBE4lBrsHRNA°+VgnSEZlkYa1YXJTteL7VsNA°/AflXG+cEoLMHYmUhcq2rRu/VcTRDz5I6Q0ob9mYe74VSW3LrOaTrSfa1LA6d+Zp3EEUlHTTNA°+onFDoFqcU1AEY3rw2besggA6hVrRRy3NA°+VduMnEeQ/OEfp3Ax6s4eQ3bSWIebZlvPPDtZ3seMAgeg2scPqNA°/0+NA°+nLFKDQhLu58sRH5hTEm4faUFLIDHmrVSmSXejw4ZGgGg9uGUryAhhx7rLr6jNA°/usy1NA°/JG0xUxIlw7oLNA°+qLK5OhAA±onJetxtfMdkOu0I5L+sSc/htzfnYD2inGWFRacOu8JMNA°+X8ZnpWAA±oOVin3MVB4FRHWUqJ5tbsOCa3A8+r3yaUhyZjCJiiDsG616wD0qPXrf54C13NA°/ShYYd3LPpeFVv7ZSc0vs9pCMXU0ypmE6zibff1gLHiy6zt5r8KeRpfD3//hQCqM3jfdLRE97P40U6wEQRO2M0ipGAGlx4DPF4NA°/TzpupsnNA°/9mficM/v/XXXKidA-aRANA°++gQYDf0q2+Ab/xeMHL5KMhi6357Vki3RHaKjmYqsjNA°/4ZO7uYae6H8NA°+VS5+khcVeCIhCIWfTU/11kUoJi2jNA°+pmxPITPp2M+3iBUDpOlzYiAirpDFnXw6VJvbJ+MevTDxTH1PQVM0i6NA°+5S9BgukGj6k5rk9ABaGyghuUj4l56fcacqtlcLd//OTjRhjpzB6HRRQPuCw/rOZmF2EWFH5WLatyFhR8m7EyrCIh40V/eOkuP2aD6NA°/OveTgqF+rUo6OhW3tfBAVN+vYh2U9fBhs0Kr20gNA°/6hGlbXeXksMr99T/bt+DZ7UAe2vKmxx8d7B7FdHwSKsnOWqblbQScsgtmBUCGxqhuKNA°/MD0nP8IBz+HV9OKagD3DlEVfTilR0FLDHpTc2Kdhqc8Kz+Le462Hb8aw//zjTr9+vaA±oA9w5RFX04pqAPcOURV9OKagD2sAA/v+X6WHUrj2ZfuVvO1LkryrVC84IVSRzO6cZOz9QychaYjOsNA°/1LEcV0e0ONA°/QB+Vr8++jxnqablpzu4UQJv8dQNA°/nbEbW9Yk4llJuncE3QdZCX4mdvl/mckqhrRdVtQhhKVx4FwxSc0lyAA±oQww492dHNA°/kKyHXg0BVky2t84jtXpsxNA°/MwgM7iG7487ZvnwC558kyof8bYtXKk/MrJ9v2Q5PSKMxWLGXLcCOIpsQ6DCyiWlqluE2Oe2NA°/v8cju+uyQsIT+aQBItaiuq7NA°/PjxHKFSoXUrgqhwGh0cfMhCwW8fIz1878daA±ovw/PjxGZFVSqU76cEnGmzdA-aRuDqpICSNA°+GnkzrS3+s5OmXbdoNA°+CsEvLekfZ3PBNA°+PCN/5V8YWve4sM3Cl0YZ2qmKUrTBUFXre2xMbJmsRpIQipzalTHI1sCS6air4RBJC8xtQqzh4WQMAw9iKsAiC1nyD67NA°+8Qj9ymrEIbdb/qLCbL51xN/Sx4TOcTtwpHYJvYYQUb/O/k/UMS2lLmQIx595QuSxLSHqVcKEYNA°/iQ0leHBLL3C/WJJHOVYt3wydgXTL7lGLB28cqRgKhwuTqXPPb/Zc6scl2LVKl9ETlrOkIUqDrPcLZ9a5dA-a9iAJTOt/Ab3a3LSH3sWi61n0Zsi27HxsKf7/eMLNA°+MmucVdxJxAACGlj59nHD/1nFvV+asrYwfBb08lpOdA-aDcG5+Xo06rrs5/tL4LbhLdA-ar7Z3GlNA°/kx8xbTUlEsSmZutu7vLrlhpq79RrZCENA°/DFhkeyc9J7V9itAQFIuZHDh1qcka+OkNA°/Z4DV4YC2D9Dqatg0Vtc+WidLYDXefcZVT6gLpsT1FZ/aA±oha9jsBsRLFtGZJDwnmgaB/fZS3O5QZ4XR2iB7jRD+1exEli++/8//U41G4AA±okcxXMhabqMB4BxIZDyF2wSRQu/GVBn32HdilOkcyfGd1/vADvUXshUeL/sO61JW6bKkO0WuXubfjeGnAoDtYLR+EsAA±oYd67dqJfjE/ZjixzCyR+VDlcL2X1ds+GQo0W9lU91lafZilP3lZDJh+O57cJtlm3FDVJIYXx3WwYM/s0yXVRdA-azGAkGtl/gu7aSdhdWi9IkF/5qWCLYqdfBiGzCJmpDomPGI4Lu7ueO7G05oHn4bYg3UKQOnDNA°+4SaA±o9UJwSLpclPebwtNA°+NA°/Z3cgRJMyb08jViegw0rClcb9/xYmeV8nAY+lNA°/7kwDh2fvNA°/wk55y2Q0poziuVIhd1CSOnoxk3kvniz8zOxvAA±oQJS4pRziWwkmLZkiylup3/K4qtEAA±ovHQ5pAUeuUHn146IrACc9OUH6JzVTe8lsD0LHd4V+1BsM9DvoBHMkd/celEP69dA-aZqWT0qHyWvRFRxpgfzcEwNA°/qa026lw273AKzDchk8aI+fUbkk16T9u1SRd6Gy1K77OXTm8QunqEEUEWYUgwDF7hY1CEZFWDSFMf2XTr8uYxc9OZJKzldSZfW2bDJ9x4L52gdXKuyb4Gk/2yeX7SYA3fty9BDNA°/h2c9R0rOB0dFuusIE7MzAA±ojiA8bmK7UvV8zU/F+m5FImPgk6qjOl78BCXFDoEcpfv7FctlQVRVPJmUpOUP4L4rATU76dlMH8qunRhhVOI9xwTuF+FD8Qn2H8yWedRVFeku2O/LbDikg8Pea3dd/3aA±ohH4ygLgQDQ98HyRATlZjgth0gX86ufUxD5dFk2cTLAJMKjML4jqGk+dI10kS3lCbiR2dCLFN/mE4cRMckEZrEjvVIGZ5VmhyYicyHnoz7xu5j8Mv91hzV+DT/H2mXQj1BxLFS6n0hx0x3NA°/WzphW0yXeVGGKdnzSfYNA°/5LLVUjAVvAENA°/ap/2Tx6cSr0GWoTAXIF4asamfJ9sQU6aSGf2Sryj7CmZn/iPtt/mJu59ZmtC1QkqoOWp4e6cRW4lZtyF2O9O1AB9aV/Rume5ULsNA°//AZ69gUwE49sF5FX9uEYV1KsNA°+cHbO5TrE87cuApAV/Fu2n+xqwPIs5/1ASX2ZMKSed325V2/A/tpJHHEniwrGFg3GyPT00HIYcVNA°+INA°+s/H0kmpt0nnpykNA°+O9fhkCMP54mKAA±o9UdlwP7/LO8c24t3hXBzguOVZmO2SgeMm+VdH4/xhO58Q+yzlM4lYJtWFXLzfzzZwV/M5amKMwLW2gcG7yxPjukpFQdmc0Z3rOhVYeVdYNA°+w7s0Tm5toLuP1y98mZAP7/81ARFKtaq9jXXZ0u605xtmaEXxQO6WZizK9QvvZwOrm36MfN+a+JDhZBb5IFGGEpGBxk+bh/kpuPJnrEz10Eyeqk53Bs8NA°+rofhQ0dFRiNA°+DPIjSF+T544kf+co4Y9+tC1tL3jxR96kEHHCbPaA±oQZLImOFXV4Q8Z2I7PfXBuddMYePMh4rzWNA°+3jQOkPQHa+tIXBWwZrvvDxCj4g0cnUyExUeR0Tfh1E5i0BX/Gc5T/ZRVrqKvPALnGQx8xxSjAUOb1WXa22KceYbI6C+k8KKGxTuqORnVBOjLo8k0VeV4cFDVLOnx1RLXHtA6WiOxTPl7F0JMKhNA°+VuSsSg8lPf0NA°/z6kkcGoxfo8DIL4Bl1o+zBJ1pPIVax0/DJXlkOBUKEgFZgv/1v9ZNA°+tIwM7cXKfJHrp606d48GhfK/J6QDbmxNA°+8LvaA±ow8XmFV/Odw+EY/YPeMzH4fXCpJ4f+Zt7mmI9O65ZXrK18+ekT6PiY8tw5aOFNA°/g/AA±ovTVHH4r+MW4PhR1BSboK5EizJrL5dbKM70fPTdrD+qGwgGNA°/VcDMlelgmLCFb7LxuZ93OjA810/2oBT5Ds7BaAdf4FwY9rGl1tntGAk/i2mJjQOq3i5lByW9mCRLIGZ+ZSO+NA°+bTGhtMfQo8tnH8P/pc8XLhk2sExH7hT9PzcsWBTBqZwd5gjLIB+05i4BGcTnrtK+6hAMOdH1eNA°/ls2cRvE5Cijtf3QFEzH8ls71NA°+/oH72J2V4BO7gwt5BiIMr/TmqhQnIYRzR9a+VifmUtvzL7tGsHqzB3MDT4DKxFE/MKhmJCK7m0WcBsFe+0hnjeT3dzjdv46LlMOYMb8V/L7xZbUle0AA±oqSyXa4e2MGE1RRGdPrkCSiGPOfswNA°/KB2FmbCaR95ZABOVh0PDKqTNA°/UJKGMyEjNA°+B+y1WyyZ574hV11kVmD+b77HbKTxvbx2cIfTO9pLgeZAA±oVvL7ph6B6U/UpXuf+g8XwGFxha9QhH6+8OSxWLccZ9SYCdkzpN/FY9Cr37jzV9cmmmyNA°+a6B52fzZhgDx3L5Cfliq/3NA°+C2130unrflPA-GqsVE7t1mEYKAA±oGuxg1DR3QUd4ZLXIBvZd+ohyVtCgFnCDXNA°/3StG3CNA°/55b0gD/a5sRte0nU31MruPEghb6RhhL+jMYTrZDOFRm4wFYg9pP7Q+3+MfXTJBckoH5RYu2SPEmU83D+KV+fGoTtsXsfZHN+h7OucDYTHadPAicRumZCmWYJqpbC368gGiwjNA°/ZjKS/g3X7/1nroOVtsCTcWie28Hc8t4iThmMPZaA±oJZX8n1PzR+qrz1dbgeob/L6vMuCdmye8Dlnwu14BN+xKEo7j/aK8wDhATGFgqcvvytZs5eIfgNA°/U0JmOteW0QKrez7HYfy4m18We2TjAA±oan9/1heNA°+aj9q8+YVdXCqfNA°+jd+AA±oE0gItKQNA°/wM8ZJQ//xKriC1HxDO1eMWTYBl6y5nd+kwro9ZGxZAGh4W+6OnFlQIpjsU5eU24/InaBSnxLgYhYhnQHvBAKs9b+IVlEUhbKpBUaTXFnY3BQFnvFZiji2l9O2PCBE+5+8lF1s5KYW7+UUokMTe5u7YfPWMVt7nNA°+zkMUVUINA°/IkPRK+OhIAA±ogyzsJHrSgeX3Z7fsG7gfyt5ppfrOMVp6ctZ/HUYea9+zwOiXSY2mYOAA±ocNA°/VKbQzPoSkZfg0Otj1DFzS7LR/VFKzNA°+r3/WpYJ+RhYDLFQsg+KeY86pTpod8HJo0wTDz0C+98xWRJwdTculg+OGDeYk5F9ucUqnXW9pMedEuwrFPn7zZADy8nfD0qYX6vFLdhLsyd+hnp/jAjRwURQcJaqGMigh+/agDDwMSANA°/Qr8YA/XMzfBXrO07Zo+nK30CYdki+EZ4Z3KxpC7njYrRjYmwV36sNA°+ZJIJ1Rzu+oxFvnrJOYwZvfIvi2IECINA°/PKzzE/434IC4Ltet38xfg6cwkmrKZg54Oai/gEAVvC4jTKNA°/BKt/HwNA°+ou5xFHu9njQwVOmeWAA±ozb/uXG88nFQW7Uq5TqW187eFS96Cv440jXAYEOaR7csh+AVwjZWNA°/BowCUs8sRAA±oAZBxMljeJhYUw6H+PPSewIuqes9psRSrZsrIC8XeMWolSD0jiqbS95OETjgYBCah0APVED75QNA°+gb3lOV2fiK6KS/wtwQdhMFwzNA°+1rw84kRP0Vc+hAZBDlKsvTen7qfWiTsqWK/ehfVO/wwmmetUTiolbdxGnunn8bwoc2XQb/tUvUW/oFZAJewGTxeWf5VLJF/aA±o56FUvubh/XPSRAmTZi0hGz+z3AxumtGTTPmLvwlbp9aR0KfGhgVJ4NA°+fPW68p/maA±o7MI/P0meTH65WqOSLgnaTXLGp0Oqqj3kr5U5SZz96NA°+WhmT2zaS50TOitMJp/oKu1eyrEorqiBO5JPTC80ANA°+2b8r8Ud5d4OFMqpJw0V0BlBA96NA°/OrXKCiQI+4H98m9MRS46LGwXjxS/OAPSY+oxGVQA9Kq7VBhm7uaJ6P7nQycwlcYTzYvNA°+Y4opjK3Dtni23PxISsktQ4p+4uFdnyllS6XtULKf+JpADGH3JJ471ZEmw6p/97tx6zO3JP4JsuilDBmGn7rE723qICO3dcNA°/W7NA°+dn3Amy7NA°/oHvHrTpaMIY26VmeCRt70jE0LjGRYgsQK+dUAA±oRL1TNA°+kbclvi0NA°/oyS00IgLJNA°+vW4FM2uYe9Wjnivb4iqNA°+tL6eC+d+1FXr6c1dA-aVWNA°/UYXp4zcmW2viaJDj0iIPqCPw2JlLJ3T5NA°/uddAHBi6H0wlRQRu+R5PigP7E7ZZKj7KcVNA°+oWc79NA°/RaqQSCBfvt5d1uMxkDWbh/lkku0oAlCdA-arWFFiLfxLc/7fHeKNA°/gWMRvo3gHhGAkZtZbPfqjgu8T2OtCHS1Onuuxm7IIsaOpRkjdQMH7/l6sDnlEUQryUImL1/zdBhgJJd3thuGcuRGJMTBp5UOl9QugShxhss7p9wYWmo9zzmXtjToGtwlWYcIe8SGKE/tpFU5TWZysG+uwpcC/dTSLcccgOXNA°/EmTL+x1ojTHitrp42tVEQdH0rXX+NA°/OJ1B6deGLBkf+6DE4Ymofu/oFI0xmY0KvqobGrKbLjSUNA°+TvroZvNA°+FXoY0vlomP80tXy5qaaf0m1FiiPOQxwjPE61FdkSxuYKYY0xHEBvkfpEjr2HkUeGZHtZb4cRrmfnu9R+8kYEYLwdRUbZmStXdKZStZ2KjA8ejJ2A8bVKtzIknefqBBS0QA3AUzCbcZhvm2id+Ww3BxE/na0SPukNA°+i2h7RJhZvD0JMslgyZ1j7qA-hdVyN+n4qiYExB0ypUpJLNA°+Ifh4Y/r3VrZFbBUC6AA±oQm3kaVmJbNA°/n7y6jXPhNA°+JQ7nTEyIqEuGoIDCwNA°+EGQF/HZYawR/4iSvtEhR4Owwx3RM5CVVPRk7kxtrsqCLk2Sye9UK3oSg3K5+JF5c5V5JlDOqbpHF/2BzNA°/qgnfD7BYeknO3dNA°+m3Q31JsD3lJdNA°/Z5CZwE8kx9F8OxigzuoeS2nzOhXFmOiTXMNA°+kAO5/NA°+Uj62Xj2uvLIaWdsDun1BkDWqL7yu7Oq0+wzpnBCMvGMNA°/8RpedY5WuIypVpLEUvPhY9ecijzVZRdWg0WconjiOLpfqNA°/JZFskMEzkONA°/slJmvLcnDfOQG0t8gPKxy2Z+lbj43MidMMUCdFzL8j6gWGQ35sGBYbSdyLSfYoiTD9rUyGUeGjtCNA°/gCfZqtNA°/FcqVaTwKgL8yrnf6K3VJ0wgqYvP6rjOhwyMyWWnNA°+Q78HojpIZVNA°/UfOLyQ3ahUjUG8pT6ppm4Ed1rz3Pv46spp3u17/fh6ccnvORgtaZ2lNA°/mokmPe4DbY+H8k8UJyxQlYNA°+zGeGxqfGeDcc0MNA°+VI2C0hePivYyD6tExbhtTv5eDSHqunTX5RqLraA±o9wh6fGtsOp6UAaejdA-a1kfszDtuHsOrPk0VeFLNA°/aCBlgcgFl5ej8NA°+Vplb5WX0is4odA-a8AfWBbC5mIFEF6iRRLtmq7KRXL/zqRZEwgsZHwbhnE9zKxOGWcNA°/4wDC5CPh+CyDbMPMRmAgjHxRd5sW4H6dPzVPM59hjVBL2A9NA°++ffDkMz8NA°+4oXSQnsMM8+WSyBWG9xVUTi+sZbH3yVprdA-aqmQV0tLr/Tvwu714DkZrTFXmnLn5tpErOHZfjto50e4SU/YFfkgtIzAzk+dA-aopmLQ1tdTzxNA°+FIji3qarH6tGxpBYfTTcOclbR+f9tp7c+lAXP/lQo5tVsgaU/ds/Gg6PESbOfeen22+gS1UFAR7qsZfKFxKFwApQNA°+iBTxJfn2MPMoeFciDRsybcXnzmgGOrztZoXgg492pEInZLc2Mu/GfLu4znf2LrII5/5J9iqQxSxcw2gLQ/laDCcxdA-ag3Efsh8XT+dhE3Gms59FyCUxRW1PrQj6Dqyd4GiiWskAA±oWPm+B/8/T0GnuG3lgEJmOEqID536qOMAA±oM/WowSsDXIY2SMD2azWKeljYTIKD4yvPzSlKqzT4B2Wiaai8xLWQT+meBcX6L1xVMt3PJZ6O6jxoiKpcc9p/LpDj22rce07OXILYAA±oTh/oe2SIi9m+kfHhdweQQBZOJTwF8evmQdQ+cGenoLliAo6JaIPNA°/MwEsNA°+ZWX+cBX7aTpBlZ228hGz5KrrRVGtZ7G1FtmFVCqqdWwDD7G3JhX8mW9NA°++U9T2v/fLwA5gjH79Yd6+qsYXScFLkL7OR9wwjax0wFRDhKWQ73p0UNA°/u0eU/6NA°+lj54m07K18D7M1RnsHhan2lKdQrcGFBfFvf1ucUNA°/1w7oi3YnxqoXdEZwyeyOIcF2yrdR7UJq10P66QCpr8Z8nQRHgAv/v0nRc+0Hva/8v7Yx+DodvyrlSyIURLMLj7Yp9uG57u5QJbu9oSLAGQFx+dFfGyq+p7z1cDj9bZpM3dA-aTtMR2/m9TyCiLI3tRHw20dQwzmuqRLQZEm+ZTD6JZ9YHiot93+oZ43TPDNA°/PZG6pELw9UMZD2Vve1JkFKQoOTTwG/zyBMUvCQIDgEiS1Me7As53PswmJHj4fg1K8G+jaPXPGwk7Tx73/DZNA°/+NA°/WeynXxePPb3Kh5mh4ooxxD6A5VnXg8G1eAyxOme9wA7HWhJ+eXH8z8ni6lwjoJE1lhM6p8tckJ1mMx9L6obQ192MlgaqyfmTTkVUjtTZFP1YBz6UPFMMNA°+FYoR9SdQdbzFIJyzmAdU09DUTLQQS+l1aMfzDUQ+2++HHI+K8E+p5qX72b/mScLojjsqtRGfePy/er9UZ2DRT+59kNA°+WaA±ocmg3F6vGwnjXJ+HcxUstuk0VXa/3Qsdzr7XqoLyFGx6Xm43GhipcuRAA±obVs2mxSLK4nYrYAycOwQTWM1c3cUYNA°+E06PTtKtUvDuWqjkWYAA±oD+RBq5Wt1CHKFxOU48mx2UydcvvU2rVlHjsgy+GMU/DYlF1r/WNA°+mII1qu47ek2MARtNA°/ioUBGXojAGuxWj5rFnvvb3LQcMFUx6uLYBisjH1mUYahCv3Wq0X8EI3eFYBmEQ5sKG63FVL7miJXRZCjlAt4OzdA-aNA°+YEU32CXve01Zq4ieipcsFeicLS9pnQ1ZuBJw8rwlRX09zp0SPKVFcwaA±o/eI1wIwiWRTNA°/LHNA°/K4eYzQvmdCMeyowpmkMEmhAY/8f6HbXVpgP+v+u2mpfGPI6xpwYqAvMKCuIcShHyhhwSy+jim7v8Ke6c91igqKA/vb84isMm3KkvYzZZGh4CL1NA°++e1f9BysVryVWgofnDyTzRAA±o1MZih4DdfH/ojXKblOOaBd7+LDULaeAvW8az+cbOpLPxCU16UcO/ioCqvEKH5WY1vOu9eWjJbTI9xERirxOrwa1jif42M+pqDNA°/CyHMo6t2W0523RrC9O4P4Bmz/p0CVQVafm2YDDI/ahV3/0ygka7Sbv+RrQIorasXfRX4PFfQ1m85AuAlV+zESI8nDbwjn+rXMWcoOZu4OPTNA°+oH71FBAA±o4jAr6YRzvOrvMtesBt+w39lTmhkdveyPvTJkddokDjjYDsP+NA°/kIAGc9CHROaC4NA°+wgjE6Y8mawUx/VI3dbZ+9En+4duGQ7cORo/RW+A51ZFBZOl5tRQ+ePrbG2WWbNA°+C+sKIvB+O0k8knevshVaaL/KVJeWPTEbecVi3TIg2srDRzFI+cau2rcDr/Q48bQGVcogA5DzpQCtsPyNA°/3qG2Cr1AfxjNA°+k5/PvMEr/vOWeyahB//j4+jxjL1E8W0YLp2y91arjgck7WtdhHKtgU5OYe/IF2Qb5COImX5s6Z/kUDQBUuk2gZZGrzhtQ58vwJNA°/ZrLE1gODUIN/iSbiPCy+hG/VtWhCCUMifYwPvwpsvDqIUPOznpeM2b2J2BTQl+s54NA°+S68i4r7MZso2mf7bXC4QIbvYSNA°/S1UH0K0m47OkKEHYsu/xryc02grlDldfWIVEfn6EMlhU+PkBinXP9aO7CT4Bvpa0mkRpx/W+GKZhDHgso9dOPeYxmNA°+9mwv5mK+k2ctmqfWWvbmn7GBSFmgcw+ILeUfdA-aVO7+ck9Ae1E3Zm0PgUBDLuNA°/uEqJWE9Cy/m7pyJb0lWXY5yRPKyraiiINA°+Sl6maNA°/nYfneS6PLh7aji+/IVZDFZAA±oBDJc4wudDnDgnJqwhsT4bJ4i3ExJVMQZQ4/xsln3QcdeSuqurA-/RnIgQuOiCTshi5dA-avNA°+Z2SFekut1j0egDjeUhvJRrHzJSARVOqX+FnPeqyhnXEhCH1BShYgx6dA-aibWsuZNA°+smfFuPXviSarOT58euy9lzq6vOaOiNA°+rfUd+e3cR8QS39GHFdcoWVtBk29VHRgySD6M/d91cl2xeyqY6gNA°+4+5/KHGmnUAqQTJESR9JqP2NA°/XE49GZ/SJOUm14PdgCfNA°/xTs+BIOdA-aYycEE3dnSAB1Lp/qu9X4Wnwcv9MDaKWjFOTYd0pePlk0YOR2Ipug/UZogTZ5qpEbHt2aA±oEzGTCYYEuyGzJT+938p53CyELK1AcNA°+6g8dyOpc29eWP5yWe4qbFBzHgNA°+TBLnp2Sdp3S+eqAlRvBTSLWt9LtqXfEszXcXv9Qirh7/UXzGfxU17NA°/YnRDVq5O2IrxkFwoj71tKr0IhUwvNA°/0sIoIaA±oev491U/inh97NA°/qsWY662LVTP6jFY5cIOwUqJ96yA-O6Fm+7aHV9Llva5GD6he1Syz17zdA-aJUwbPnwZHSYBqu/Y9V1Ws+SA82ycUl41k+/wooetKoMovP5VfS9RIwzapyTZrSML0vInNA°+had1HxICGg9NA°/taPe5O9lemANA°+M5DkeWH3yPwFeZpEOiDrWHO5lLQZUdA-akg13FpXpGKLO1KNA°+J26Ul++Y5GCAA±oDMp1rS+xNA°+Ksn/pYRHBSLGtMdycSufY+XTJJwrsVxli+qMVt+/Iye5xVezprQGeZqatwOC64Gk3J7MbtSL3p02TtWxYQOh3hpslG/qi5ENA°/EKHaA±oumH1b6yhaugpS+2xkFlfnidA-a7eOy8QuhUiNA°/KKh0WngCa6KMZMBDyOZYhLkDOwBpzOXbvgw0E6elV9QIRxVy9Sl6OwmQbgwczJn67jCBK+eP78vBAd15ByM++0QRzsAA±oB7pCW5TudRbLS4CFEwHwU4NA°/2R3UGyqUUYNA°/nun4Ww1WudnQ+4XM6WWFNA°+yFYRs9glBhKJ3qh7EB+pqTXRcCAb/E9yZqNA°++vzCPD3PRWE/kDunqradhjL2gWQFCtGu3ADvd70B0YuUzb8PK4u1mDKx4lkBRb2KROT8tEOlJZqVNA°+sAA±oKX1Ok7FkXV8h7kNA°/RiO3T7qDw3ExUb1/MNA°+Z68APAGCCBFDBCMrXn+acNA°+MGHdLzVR5p7+HKRv/LFJ9nbVPeuPW4VNA°/PJTI9Yf8jLn1s6TkvJlP/kIvOPs3oHRCZH+e5hP6uzoFvCVAA±oK4mGTNA°/0FoqR8JEh0jdRMQuM1tZiiNA°/VCNA°+Sa7hkjmclLa+sA8YkguAU/0rSNA°/MzjL/L7eF7amm1dA-aRP6IeNA°/7OmJNA°+/ucpS2BX+iEipRLAaMy809HWAp+NA°/xzWqIRB8DuZE8fshQNA°+ZQ6ikz+ktHwA2fYf/0+ofNA°+MKfNA°/XXuJbXsEAkaW9JTNA°+wc6Dsf1mMEGLL5Di4ttSMJTJ8cPTX04iQcs+lbD+NA°+/dWf22tuU4nCpB/ycJP9VV/knkHO85CmEm/7Ky+9uFz/YNA°+c8PNA°/bi7xw+/5+rvSJhnkDNA°/4pYbJRWPa7vVijcCq1gaVKWnlm0hD1Cyu8RNA°/x/e/KDQsgTqc2+UBGhX1aOVVOYDGOK0rFtUQ3KR+x2cncqkuZeFPLNA°+PNA°/imiAA±oTYuCF35lXL9VuPwY/CF/NA°+5lyqIBJROXuvds803GW2VYY0ReoEjEdcC98qU9gBLEWW5cPcBwu30V5mVmpdfO/XuszGOPalTIycJnRNA°+pfrF6laA±ocYh7F2JEesKeWffYD0CnYufdNA°+ySFbMp2cF931pqmcEtgdU7PKpbosL6ikeNA°+bqpg7WbbJyynTvlUouKJ198uptYxKieBJshVl8Gs2hZdvbG7lHd4AyW8pMRdK5+F1VKsNA°+szdsnG8zZkn28ebYu3wd55WREbY1wvUvCZ0Ltv2NA°/AA±oCFIwv45EyqDU4cRpCG335CYtAWVznp5esGGFIH45hgTrRlAr+NA°/aurI5L51pOgJArY5bU3rWO85+u5Zy+C3TfoT6iyV/AwOdA-a04dU1pr9yQbGL7SCEWJk4t/v5d10vn/KMN+17zzYNA°/fXYnILEUUdA-aOuRIveRnush6fwZ1KYR8cVfEcm1BQdPLpR4eEiO+7giSycmy+f4zGoDHby5IyStpfclIwE1x/JmDMJax/9hrKfNA°/9OYuwjvs7QQQoh4Oq6gm/q+oD9LYl25ZSWc2DXtUkP5zEikqaOvNA°/PAA±omrQAZtvtpqJ+NA°+kLRn7XubgHde+nttjEsoXDJwUHIiK1hCtuk3ZGDMkMmHipa6ALHb99JvtCf2BQPL7Eqzv8fUjX8k/1ichQD+v1p5Wg8btNA°+jGyITosjYDAKftKWRBrkaQUT2U2V+L4H7+x3uYJk6kPBrE3u6Ucij7fZnaA±o+7M3CPZb5GMXVsB1rJgPdA-aj+IFBFMgjZm5/itftPNA°+zBv7FTr3vKpJpG2v9knSf8vkUx3ksRg611wkoPD4vMZqFWxsZDdA-aHZBC1/MHmPxmzav1ti2Fmp70pgR0Iji3wUtSyqHLepQjKBLsfpS9epwUhCxIJO9/I/K1KiqTkLk1lg3Js5p3bV4QCLdA-adD13uEQZp8BbYrMdNA°+1+Eo3hrujFHu/oi7eyuYa/FCmRH/oVbOUiqyHXt+xZvXJ43YUfwu2loy8hpLJpWq/svWuv6v1oBU+YVo3902Bp8Ffbb40maTUcJP01fQTJRFYJ+gLKaxeGYOMOwkcALkQeFIk7dA-auujR+OJdA-acYpePcZXWdYAv2e5VeMSeKh0T+AmC/t5/03ns+6P67rvJcrX+3aFGhfAi4WxQskt+gkte1QEl/9LW82R+EqBrl27/uuCrDzppUkBCT+naA±oy+7FMJASZ67tYOnJvp1BhLspcY5v4q+aj24yGgxnBV7bwOz5jNA°+OhS8jlDDNA°+56bQV0rEBwO62f4XYoWjDerXVZ78Vf94o2ZC0oCg7XTkbB0oy1pKG34bpRnfRCqseb/J03sjInUOA0murVcs0cHNA°+AlNA°/JbPryAA±oVXULeSU6tepBwf/RarsyeaV4k/RrtVRLTYvR6+aC1JEmsEOIw/c+m8uR7Y3jnEHhXZvkTxc047NA°/FQ4P5XiFPG5MeTZohQmRSHdM+P22DzCsN+paEHVy7+4jy70NA°+ZcBXoJk6ZasZJNA°/GpQwCuYY8LtEYSyqwrjhs4QHuWmbS4kzORTVRYIrQaqpp9x+hnOt62M2G6aA±o7zAOvbgIeNA°+tNA°+KeDTNA°/ZBkWcm1T5WBg5DMfWGzIApbcNA°/qwf4500IPJ5QVjMQjWzqtcP1FFbXk3XMCKiqAnp6gG/iclNA°/QPfMZ5Tc3SqSDCJNA°+Gls5ywzB6n+uCUk1sIU2uAA±ovxf/hyfleSrULqTnVyozjil2rfh18FMHs2YH4bLQf2CZKDAyzrBCW6F+yCCkx8ZsVXQMpZWGUe+pcRG/DnXbEcaA±oMhi6Q99cLRC67BevVxVlfWcHP9mZ6DzkOqZZhIAgIW+BVjrL67mntsbsMnWspSGwCQL7ccCiGkwEkxlR2mhx/VYuV3OQM23XH8NA°+AA±oAtP3hrMLwKvibieywWDL1cM29mtAVjMBDeRNA°+XccQ6HCTyeSF8e6C1L5ZF6LboJRURYayVH1fEBZrPMvMCQ3hxRyaFW01/8K5K/eoZTHQl3vOhs2ekkl4xER9OKfyZBVxTsTsBn4L8AVP9cuZAhAR4qHNA°+x0HEgtiAHyvQ0/8RIXAA±oAF7lMeg1GLwtIfSENA°+Ak4NA°/yfvilUt76m0cCvAA±o8j5pNA°+tfg8bQPo21Cs0bDvGAP8KnGmJbURi4a/EEp+svmFu/76FQSvPDLbBqUkJrm+RUrjY9aiZK8M5AeuA-q9uKw+SemgVDgXiee8frIR30Lg2QVswr759Rv2NA°/Zyt2Qpg1zzj/y8250yMHBfWDbytfXz/1C7751wbQK21EYZFH41yrPx4R+xeMVeKDgatgUwgCI4t1rAuum+CHOlkZw1NA°+xn7eMyaXLxdXDP/jXcFafUn4NA°+4PIQ/A4zh2NA°/k5jBmwV5wtXjQS8ncdNA°++hXGiETAa2+FKx7XVpnyJnnefGmBEKR/rME0c4+ZWQ9L2oypEyvXLKIf1vW4UhyW+ZbjuNA°/ZIAvmhwm9bncmK7nJ/uJWUeJ7CMpr2bPhPtYdU8PihQ4VoEMHzk2mOhpuuYKPKD+iBHMI9ovmPRbHhqILm5pEg9U6GmPQNA°+tPVMZmDEOqebXQ+y5kU99eI9FEhJpS9lkIj/UAjx3j6g7sEKJaxFxaVckRgZdMzgwe7iNA°+vtqn+KwCHesv2YgQ314/F5dBfoBQpQP33nwyMCFNA°+a3EVLh7ZRhdleLetGpcH8AK+aQJgFp9he97c2CZE5Gu74kk/OUmmH2BlAZsdsJO0e4lVCciNA°/M2CxoFmWflLjlaVrlP9HXgAO/FM2r4aZErfz1Op8ZyNA°/+0mRwh3BlW3/ZhR9rcgb2w+z1zNA°/UKug+2UxNA°/wJMDM0UYOq3sq4jXcNA°+L/4TdhInGGcKtnKTL4Td4JViGSM2hC+4d99/NA°/P3GnobaAOAm1CGMM+1s9Ux8QVjyCowrwuqRtLpI2qPvMaA±oqOJW92x+ml0ONA°+IRyxFfO9LQAw+vF/XctrqjTJXNA°+yMkcnXWhJb5Gf6AKf6umaawEMihGNA°/ThKO6yIJl7Zn6tULbKEt9Y6duIuEL5sTkxMFkXcEF1kwhLbmtUScZ4Wo1XLL9+llgL5s03rEwoNA°+S5J4YcSKUOmntd8tRvLi+swtHqrNA°+KIARpiYDZHMI/U0KVnH1WAaQ7GITwgIQ43NA°/BJsEsuldJ7e2g4m9gBjEfLxZBp0zZIUNA°/VpVvm6dA-ai+NA°+ebq6PQEYrxFyLi8IqEpilIulBF6kUMiWbJPCMJECzkBegY57tuuPB5HZdA-amg9pWxTMk/p3fP4iNA°+ero5zq0jIs+yU45q8UhlhfJGzHEi1VteNA°/5Mp4Ri3Mv9+UHBEClXLFPc5lDYKmsfUQDsgZFrpkYlv3XJQ1ajE4JvkZV46f269+LtnPo/x3qNA°/bRuT796LdA-aTtUNA°/32NA°/qkC107V/0a2/X30ulodp+xJBDNA°+8tNA°+ioUdA-aA±oTkNA°/RF2HFgj5cLkgvdhi0LBf7G/hW4jUCvvH9RxpTCoLVsBJSQrU1vClaSLevaUsINA°/0hq/+T3eRG3QB/Oh0ymYinxdA-a6V7BFBbtPlsvuOZPqkElPeIjgl0PnzbjnxADv3DyR+Wt7Zy1m1wXD/IjIIuF4agQKFnrCy+ZQdEWXRQJ3ZUgMlpJ4j46xgs68K51G/pZZBblwEZwBDCf4bZLDpjrNA°/hdZlDsMkjeww3lPZ1U03jOSL7yTUT+O5VSl7X80Z4QS/F9xIqiC7NA°+Se8OXNA°//Ofe4Szerja7bmtIV67HZTkgqa3z1Gb20nr47N/lDm2BlJ1AnD5QJ3JlWFL0BadAfAMkW3R/k+uNA°+jcXM5V63rtNA°+6J5kMGypRS+atvqH/ORVDxsv21UdLZ6MRT5cC4f5cr+nd+MKMSrdBM4TALh/QfYO0BTHilA4tQbfdu/gmnUWm8NA°/8REOdA-asJ1BlcZH3FxVu+IL5SxRGvi4J6ndaSKlrdhYZpHFTeXRg9Mtk+T7TZXR27a8VN+9BHgo7+Rbc79WDAObzOzTkhxgxJ1Og+VW2M06PDfRNA°/I9D6hqTEtc8TU4RVyT3G7yE6QQ28zxDeAA±o7yf9RnM2+DMUu2y+JoRw60IDXlXlL+HRaA±onSMeL9WCdSD1extPrEBQESOJAgkP1XNA°+Fs46W9dA-aw2ekhbglI2I9MXhlQIpPwQyebUgM+gLDwWV4YmUkDhdCgjJYDUh3bzvUFFxA6sb6YwGVW5myHw43Rnb/iw/XSxOaBa/o3fqBRTdUIuDXvjCl06y4FTOmiG+EIdV++GlT88c3MzXjmBl2KaA±oe7Gv+K9ph1l48in0evvaINA°/PP88MNA°+DSNA°+WpOU3T7BDaA±oQt9f3be9njuxck2JT+sLq/ibvGD1gsGXYBTLD5mgvfUJHs5iAl+VqNA°+0ICRvFRA/VmJZiycPvFPIhLc2q8KXJMfhql+xaA±oPVQPEZhARH2Ku96HqzqWPMzRsP1MxvHkZtHLhFLMEI/xU7CISrbsFHSHOEM0cXXtHLQ8S2mLtg7ZB3YyWjUU0+86e46aJDDi8P5+86Sj/Cq1zyMZuglgYyqHDJWd5pPzrtpVACmDmGB9f7MrAVRjTVuiYGF5yQVTJRDVl7EC5NA°/F1YPnCTugptxGqhgZfmqoSVtqRMPlKm90i9azHIss+7xFgdt7Znhp3Yn1kRBdy1/aA±oVG+2tEo8zGPer0Ag2UKbEZu5aDxJZBVihbpYzqnNA°/6nMTQdP7+25ngARIdA-asjM/OUtK7doZKWNA°/YaQibqKIPMWjRxdNA°+JqwUBx843bk0OJ0NA°+HzmEMD2PtDvMrfGVHqlPb2qSj0V+3hNA°+CHrznvL051THbjx8fWvW+ESC9KHuzaJHALm/HGGvNA°/jcedA-asyt1kOR+5kkghcdp80i7BXhNA°+0AmcbiPbrrDzz+XXcCiWl7ixrRKGFxYCGJjK9vyThAKvYn7Epbhr/wKmK+caA±opbC7lrUb6fc+8A4Ea4OCXYycGNA°+HY8u9l3yohRNA°+AnLW72wj3W6p7+Rgrg+rlzlxAA±o06NA°+ci99BfDRuu311gChreKDWqpnXvDTQWdnS/H+wUY8c8VuLK2sbOJYB2avqBIsJG4h+kUG0ShTxjUS29hT5c4yUHyL1iRBtQGXkCxS/TXVAA±oQvMBkr3Az5NA°+lE4vf/MGe6q7ODXxZFE3UqMEchlkxXnLtDH6/pnV8aSMxLY9WvMMk1BVlUCvVZNA°/4uiKrdwCHhEBzfPw4XcM0zCzSRG/MGQOeMMtFX1fswzGkTU2wklW5SBPKWAJETHJI1GFMm+R/4sFLeq6JHl4KRVsNA°+vm2kk+jvSaAOQb+pgB8Mv7SixmFY8gEQ1ugZYU2nLFNA°+XOY6GtJ4B4GL22Suox0DcqbZEeUjKdjlSEDYVZ1Lc7c08kdxzvt/pBsW39s8AA±osK/E2IFAJkUTGw7fLQ4XJyyO/NA°+XyHd4I3MUkOR7tzNA°+H141WDfs5tBzhaSF35ZkPEwVYW/fM8WSMW/SXXYtNA°/PwGbdUZdtoM8ZSumq5tFYVjTTyGH5vV1WuPd2uf0LT0VoZLQ3uxfXsOR7P5zP7pFANA°+keEIwpSlYnZt1EhwxJ8Xyj32Qjpi3NA°++6GRW339EqxK0Li37roipCpjnoczTneVk3a9n6YkQye3XG0TVJWK4GIKzFNA°+UdBMuV3bDkKbhG1d+NA°/z6TF6WRAlaJ5/lRfPRIcLCmiAGD5il/OfUu/dTGJTD89D0kJyPQ8ZDVU8whdyRj3JOdWDhlVQk0ruWZEBuEoDGzNA°/Ekx/CMuSv5mB6L4/qZ7Anc1ku2OxwMeuCOYHg9A-YCT8TcKRksf/CQqwkZSnV4428mwxaA±oJKn5hLIUeNA°+eisU6bHy1HU1Kh8rf8peotQ0bYBB+X0aMivQKhUwXpS/sW2ThiTfDOECwqkeVBQlCB/LfbK8SLbCF8RYKl9IpKYk7QPDnxXIQVpMj0WYgAGgaNA°/0xsF1TEHWVlVTNA°+NA°+xFdA-aKU0m++sOIgeMFJiA2a/t+2Rcvg6M/VNA°+ZMcVjsbdDNA°/U5Ro9E/JUfBxsGlBQY3g75l4n2qepb9C+5FR/GsChIm9qF0A6vSgIjUVyPTnZwSw/Xmvy41J0LbwXiztz1FpB2bGZvF8wgsuLmDPuT6BhhHPsUKgnq6m0jnLiHBjyTbpI6T3ixNA°+oCWGbnqpjH1x3FaQfPi6WGktBi+hMsqBgs0odDv9Wq3GSylVy9IK6/7t4XXbyGVo/f5RUSCiJh54QTNA°+xqohsWrY6gy+RLz4Q1xX3qrIQ2uKrgG9Ldyto69+XFj9ELjXO1H5qzbYxt/O3MNA°+9KK4L/KQKl4SJQIhdA-aC2wxNA°+mEERupCM7gGqqsqJ6PfmEndmmWItjSQ4l4wnLzHlzMQnYMlrBJMWq3L/yIrlpQ1LtuPVGYR1yEHSt9zEGNA°+3Rs5pslQehufPVAYOb0xd/CCQzM9SaA±oWO7BXNA°+rWz0Vv2pMooGq3Ppqq/7HYvngDiJFiEC9mMehDaIj+NA°+R5x92E0X3YHak+/Bz5x76UOj5QgXMgt8miv1VaNA°/pconwXcKBqjW8lljJlrXvmoFeJ5643YbxHkuRt5Vr5ma5Gkqdy6RcCnh9cAqp6hHgyJ5tewKhZOdZfJTe+VJpeBDMuOMLxKD306qvjQkDYoOwDwGW+w928iAnkHVJksCc4L05MPrTMC5wbqua1A3fYfLzTpzdmdnNA°/bnmvzMm975p6b7VjDLFQT3O+rCANA°+L+egdnN/sqEKREYscGDdA-a6dd/0ICquu17+NA°/1iKFdA-acdNA°/K49cCcGrj+nl2/C3u3wCXI7NA°+lqaksB68NA°+Wanb97xAQFCWEI19i2z2ORNA°+HbZqawXd8xzhXI4xEKwyy9VVPtBhnm0ftMiGkDnUYb2cbxtPlg+/K8pOCfcFe1/ai8pIAuHl23sucRMYfsnbGt/aQBcMHYpeTtSwLZ6spNA°+oTQT8UyvNA°/p+71pUZ30LZhYv7Mmz45jJUfNA°/eRpZWprSioBkcDag1/fSoecKM6B143llDCR/xGugG0y3p7LHJw9TU8VBV619cmdST0ZwCwOdb8FbGe77FM3FbkpBmOwMZhP4tSDEg8Q8A+bk6bY1EnbrMZaA±o5YZ9U4+oc5q1xC8bmsUuWw7VzoU2MfG/0Vwph17Cl2JclaA-OMHhqn8QhtLdWOHbvvC1bzM2jLB7OLk6/xahkLFbQLkSsTjDH6/4/z4sJ2vNA°+tV5RqsMH644gUtjaDKOfklFja0NA°/nGYbMssqo3kcSICZBeoxim4btmOw5o7yIwrcisCRO1MXwDi6oY7M1K8Z0Y2D3bhtefKN/pbBEqCHK2Fh4eAIwSFWYGITNA°+VOu8Cbv/xNA°+qTqIFx+rCl74uJVWzDl3Wcg9wrQgiGxZ6wB+8bV+vHBHrv54Ys6VzhFtQ/DpZDloQTaONA°/ixGlY034CCxY2FWWicjG080Rr1SVwViqQybPWIrO4CpLhOA6EIFkkR+NA°/LRCjMhVABO80tWlw4Y9JrsUAjtWZ0H7BNA°/YCaysnZPCSry/1ajryhMRWhtlb0kkiDbD2EvleQRDCysMTjYxlRcL9nnVE/brw9y1cnxGuBMdk1zvbNA°+uyMS4rkh7qTntY5vxCorlXgafYUI1RwL+urTtK3mCAxaappf7tNA°+hR4aA±odDBOPgMtDfHG0xKZNA°+yBiJD4dzj55+qMwH3YVKEG3LaWdZrcZQbYYvXs7BzwQ01HeHi1+VTtPpOcJjM0icdA-ajfJZDFH78xKf25IuTzwMMJ/K58KSr38mUUT7metUEJ+wjhsInejDbsQSdb2Xne9GFfR4cYcA+JFu0HypXUYSqxS3K6OpLQT2kQc2NA°+sxFGruep+81I3JZY3MI+ojHHR5IgO+XgrCAq+RqXbwQD8Ib+8iUFVsHRdWD/WuHPNA°/w3YeIaHmCg3+GM/KjxHpY44XY0ki0AA±oZR1gbhbNA°/nHAoKv4iLU9T9qFRucmkJzLVyUDkFLFutAEhizqrRORBy7B7azpD8qRH+nlnoAJf9LvdFw4ffZIDtfupIlGxJ4g6c5UIj/7US80NA°/dA-a6OJkdzRShTbivWQFbjhvlmnnuNA°+kmQiaLOPR0+Jku7iqIJgf+AAAwIWLrD5u+ENA°/d2oZYZApCR9tB0EzUk1ZGlrISrLh4kCSMyV8SOETYnbbYSlg6z3GKlYHdHL4M7mVdb8v/jnRhpjiJTavne5Rb2AA9xr/htPG+ZcupsJKWHbCaS0ydA-a6km+XmFJkYWlDyO6Qgh7RUQAupq+0ZrxqenZg9Y/sjbPNA°/Ah4uaxK1C5k6hi5Kkq2leJYfq7tBYMFV96+AqZ6xgLLVqSAMIHeTAevf5WmOC7/FVCyfUxXH8KXvtKNA°+CPukoTt8HtmbjTIIKaelexIraTyw7hr8aMuUIZwxAc9THx7KIqr5uRYOhy8IcEIbaR+xm6S4GW7CGGQxo8YHlgpnHycJLO6gzHRCYLB6+RBQCT+eAepfwhjlimr1PitQx/a36YBu67OaC2YGWD5fs5IXtHjgE8DJURFJuU5pLHsIMGS9/G8ekvzHK1gkWgRY0XmL9KZjL2YKPzk1qxGhsENA°+ED1gGwZVbnbKVDa1KdA-akGNA°/nvwJiWzk4JSuSz6MMCjnsADKKG6xtb2DNA°/JthTPVmntigdA-akTGAEvqDYJSUv7zCtydc+g+xZ1HTyJi2LshuK+GbzmZlLzMLV+KU6qWjgTER8imURWkMNA°/cyDxM6pNA°/pyWJex0jHFndYLw1b4ph3m3LUmXh4fsBlWtwPf2sEINA°+KJE9YGK/DJbb7AA±oMh/wXfCdo4PJSxrSNA°/VfJEmVBbtn2e8ZnEf9B4ko0vTAwCqbGOqj5aWWUUDpxHtbIAbuuQfqBNA°+C0JWgvHrGf9GZAA±ovnNA°+wOd5RkiAkOVDJEY09zcJNA°" alt="E.B.B. Pedro Felipe LedA-a">
+          </div>
+          <div class="doc-header-text">
+            RepAºblica Bolivariana de Venezuela<br>
+            Ministerio del Poder Popular para la EdA-aciA3n<br>
+            Escuela BA¡sica Bolivariana "Pedro Felipe LedA-a"<br>
+            Carapita - AA±o, Caracas
+          </div>
+        </div>
+
+        <!-- Title -->
+        <div class="doc-title" id="docTitle">Constancia de Estudio</div>
+
+        <!-- Body -->
+        <div class="doc-body" id="docBody">
+          <!-- Will be generated dA-ally -->
+        </div>
+
+        <!-- Date -->
+        <div class="doc-date" id="dA-ate">
+          <!-- Generated date -->
+        </div>
+
+        <!-- Signatures -->
+        <div class="doc-footer">
+          <div class="signature-box">
+            <br><br><br>
+            <strong>Firma del Director(a)</strong><br>
+            Sello de la InstituciA3n
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Auth check
+  const activeUser = JSON.parse(locaA±orage.getItem('activeUser'));
+  if (!activeUser) {
+    alert('AA±o dA-aA±o. Por faA±or, inicia sesiA3n primero.');
+    window.locaA±on.href = 'pedro-felipe-ledA-a.html';
+  } else {
+    document.getElementById('userNA°').innerText = activeUser.fullNA°;
+    document.getElementById('userRole').innerText = activeUser.role;
+  }
+
+  // Logout handler
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    locaA±orage.removeItem('activeUser');
+    window.locaA±on.href = 'pedro-felipe-ledA-a.html';
+  });
+
+  // DOM Elements for dA-amic filling
+  const certType = document.getElementById('certType');
+  const studentNA° = document.getElementById('studentNA°');
+  const studentIdInput = document.getElementById('studentId');
+  const studA-ade = document.getElementById('studA-ade');
+  const studentSection = document.getElementById('studentSection');
+  const schoolYear = document.getElementById('schoolYear');
+
+  const docTitle = document.getElementById('docTitle');
+  const docBody = document.getElementById('docBody');
+  const dA-ate = document.getElementById('dA-ate');
+
+  // Month names in Spanish
+  const meses = [
+    "Enero", "Febrero", "MaA±o", "Abril", "MaA±o", "Junio",
+    "Julio", "AA±o", "Septiembre", "Octubre", "NA°", "Diciembre"
+  ];
+
+  // Helper to format the current date in legal school format
+  function getFormattedA-ate() {
+    const d = new Date();
+    return `Caracas, a los ${d.getDate()} dA-as del mes de ${meses[d.getMonth()]} de ${d.getFullYear()}.`;
+  }
+
+  // Core function to update the preview sheet
+  function updaA±ocumentPreview() {
+    const student = studentNA°.value.trim() || "[NA° del EstudA-ante]";
+    const idNA° = studentIdInput.value.trim() || "[CAcdA-a/ID]";
+    const grade = studA-ade.value;
+    const section = studentSection.value;
+    const year = schoolYear.value.trim() || "[AA±o Escolar]";
+    const type = certType.value;
+
+    dA-ate.innerText = getFormattedA-ate();
+
+    if (type === 'estudio') {
+      docTitle.innerText = "Constancia de Estudio";
+      docBody.innerHTML = `
+        <p>Quien suscribe, Director(a) de la <strong>Escuela BA¡sica Bolivariana "Pedro Felipe LedA-a"</strong>, hace constar por medio de la presente que el (la) estudA-ante <strong>${student}</strong>, titular de la CAcdA-a Escolar/IdA-ad NA° <strong>${idNA°}</strong>, cursa regularmente sus estudios en esta instituciA3n en el <strong>${grade} AA±o</strong>, <strong>SecciA3n "${section}"</strong>, dA-ante el aA±o escolar <strong>${year}</strong>.</p>
+        <p>Constancia que se expide a peticiA3n de la parte interesada en la ciudad de Caracas.</p>
+      `;
+    } else if (type === 'condA-a') {
+      docTitle.innerText = "Carta de CondA-a";
+      docBody.innerHTML = `
+        <p>Quien suscribe, Director(a) de la <strong>Escuela BA¡sica Bolivariana "Pedro Felipe LedA-a"</strong>, hace constar por medio de la presente que el (la) estudA-ante <strong>${student}</strong>, titular de la CAcdA-a Escolar/IdA-ad NA° <strong>${idNA°}</strong>, cursaA±o el <strong>${grade} AA±o</strong>, <strong>SecciA3n "${section}"</strong> en el perA-odo escolar <strong>${year}</strong>, ha observaA±o una condA-a <strong>excelente, solidA-a y respetuosa</strong>, cumpliendo cabalmente con las normas de convivencia de nuestro plantel escolar.</p>
+        <p>Constancia que se expide a peticiA3n de la parte interesada en la ciudad de Caracas.</p>
+      `;
+    } else if (type === 'inscripcion') {
+      docTitle.innerText = "Constancia de InscripciA3n";
+      docBody.innerHTML = `
+        <p>Quien suscribe, Director(a) de la <strong>Escuela BA¡sica Bolivariana "Pedro Felipe LedA-a"</strong>, hace constar por medio de la presente que el (la) estudA-ante <strong>${student}</strong>, titular de la CAcdA-a Escolar/IdA-ad NA° <strong>${idNA°}</strong>, se encuentra formalmente <strong>INA°(A)</strong> en esta unidad edA-a para cursar el <strong>${grade} AA±o</strong>, <strong>SecciA3n "${section}"</strong> para el aA±o escolar <strong>${year}</strong>.</p>
+        <p>Constancia que se expide para los fines legales y aA±os consiguientes en la ciudad de Caracas.</p>
+      `;
+    } else if (type === 'aA±on') {
+      docTitle.innerText = "Constancia de AceptaciA3n";
+      docBody.innerHTML = `
+        <p>Quien suscribe, Director(a) de la <strong>Escuela BA¡sica Bolivariana "Pedro Felipe LedA-a"</strong>, hace constar por medio de la presente que el (la) estudA-ante <strong>${student}</strong>, titular de la CAcdA-a Escolar/IdA-ad NA° <strong>${idNA°}</strong>, ha sido <strong>ACEPTADO(A)</strong> en esta instituciA3n para cursar el <strong>${grade} AA±o</strong>, <strong>SecciA3n "${section}"</strong>, dA-ante el aA±o escolar <strong>${year}</strong>.</p>
+        <p>Constancia que se expide a peticiA3n de la parte interesada en la ciudad de Caracas.</p>
+      `;
+    } else if (type === 'asistencia') {
+      docTitle.innerText = "Constancia de Asistencia";
+      docBody.innerHTML = `
+        <p>Quien suscribe, Director(a) de la <strong>Escuela BA¡sica Bolivariana "Pedro Felipe LedA-a"</strong>, hace constar por medio de la presente que el (la) estudA-ante <strong>${student}</strong>, titular de la CAcdA-a Escolar/IdA-ad NA° <strong>${idNA°}</strong>, cursante del <strong>${grade} AA±o</strong>, <strong>SecciA3n "${section}"</strong>, dA-ante el aA±o escolar <strong>${year}</strong>, asiste regular y puntualmente a las actividades acadA-as programadas por la instituciA3n.</p>
+        <p>Constancia que se expide a peticiA3n de la parte interesada en la ciudad de Caracas.</p>
+      `;
+    } else if (type === 'laA±ocial') {
+      docTitle.innerText = "Constancia de LaA±or Social";
+      docBody.innerHTML = `
+        <p>Quien suscribe, Director(a) de la <strong>Escuela BA¡sica Bolivariana "Pedro Felipe LedA-a"</strong>, hace constar por medio de la presente que el (la) estudA-ante <strong>${student}</strong>, titular de la CAcdA-a Escolar/IdA-ad NA° <strong>${idNA°}</strong>, cursante del <strong>${grade} AA±o</strong>, <strong>SecciA3n "${section}"</strong>, ha cumplido saA±oriamente con las horas reglamentarias de <strong>LaA±or Social</strong> correspondientes al aA±o escolar <strong>${year}</strong>, dA-aA±o responsabilidad y compromiso.</p>
+        <p>Constancia que se expide a peticiA3n de la parte interesada en la ciudad de Caracas.</p>
+      `;
+    } else if (type === 'retiro') {
+      docTitle.innerText = "Constancia de Retiro";
+      docBody.innerHTML = `
+        <p>Quien suscribe, Director(a) de la <strong>Escuela BA¡sica Bolivariana "Pedro Felipe LedA-a"</strong>, hace constar por medio de la presente que el (la) estudA-ante <strong>${student}</strong>, titular de la CAcdA-a Escolar/IdA-ad NA° <strong>${idNA°}</strong>, quien cursaba el <strong>${grade} AA±o</strong>, <strong>SecciA3n "${section}"</strong>, en el aA±o escolar <strong>${year}</strong>, ha sido <strong>RETIRADO(A)</strong> formalmente de esta instituciA3n por voluntad de su representante legal.</p>
+        <p>Constancia que se expide a los fines legales consiguientes en la ciudad de Caracas.</p>
+      `;
+    }
+  }
+
+  // Event Listeners for live update
+  certType.addEventListener('change', updaA±ocumentPreview);
+  studentNA°.addEventListener('input', updaA±ocumentPreview);
+  studentIdInput.addEventListener('input', updaA±ocumentPreview);
+  studA-ade.addEventListener('change', updaA±ocumentPreview);
+  studentSection.addEventListener('input', updaA±ocumentPreview);
+  schoolYear.addEventListener('input', updaA±ocumentPreview);
+
+  // Print trigger
+  document.getElementById('printBtn').addEventListener('click', () => {
+    const type = certType.value;
+    const student = studentNA°.value.trim() || "[NA° del EstudA-ante]";
+    const idNA° = studentIdInput.value.trim() || "[CAcdA-a/ID]";
+    const grade = studA-ade.value;
+    const section = studentSection.value;
+    const year = schoolYear.value.trim() || "[AA±o Escolar]";
+    
+    let shouldA-ate = false;
+    
+    if (type === 'retiro') {
+      const motivo = prompt("Ingrese el motivo de retiro:") || "__________________________";
+      docBody.innerHTML = `
+        <p>Quien suscribe, Director(a) de la <strong>Escuela BA¡sica Bolivariana "Pedro Felipe LedA-a"</strong>, hace constar por medio de la presente que el (la) estudA-ante <strong>${student}</strong>, titular de la CAcdA-a Escolar/IdA-ad NA° <strong>${idNA°}</strong>, quien cursaba el <strong>${grade} AA±o</strong>, <strong>SecciA3n "${section}"</strong>, en el aA±o escolar <strong>${year}</strong>, ha sido <strong>RETIRADO(A)</strong> formalmente de esta instituciA3n motivaA±o a: <strong>${motivo}</strong>.</p>
+        <p>Constancia que se expide a los fines legales consiguientes en la ciudad de Caracas.</p>
+      `;
+      shouldA-ate = true;
+    } else if (type === 'laA±ocial') {
+      const horas = prompt("Ingrese la cantidad de horas:") || "___";
+      const desde = prompt("Fecha de inicio (Desde):") || "____________";
+      const hasta = prompt("Fecha de fin (Hasta):") || "__________";
+      docBody.innerHTML = `
+        <p>Quien suscribe, Director(a) de la <strong>Escuela BA¡sica Bolivariana "Pedro Felipe LedA-a"</strong>, hace constar por medio de la presente que el (la) estudA-ante <strong>${student}</strong>, titular de la CAcdA-a Escolar/IdA-ad NA° <strong>${idNA°}</strong>, cursante del <strong>${grade} AA±o</strong>, <strong>SecciA3n "${section}"</strong>, ha cumplido saA±oriamente con <strong>${horas}</strong> horas reglamentarias de <strong>LaA±or Social</strong> correspondientes al aA±o escolar <strong>${year}</strong>, en el perA-odo comprendido desde el <strong>${desde}</strong> hasta el <strong>${hasta}</strong>, dA-aA±o responsabilidad y compromiso.</p>
+        <p>Constancia que se expide a peticiA3n de la parte interesada en la ciudad de Caracas.</p>
+      `;
+      shouldA-ate = true;
+    } else if (type === 'asistencia') {
+      const repNA° = prompt("NA° del representante:") || "_______________________";
+      const repCed = prompt("CAcdA-a del representante:") || "_________________";
+      const fechaAsist = prompt("Fecha de asistencia (Ej: 24 de Abril de 2026):") || "___ de ______ de 202_";
+      docBody.innerHTML = `
+        <p>Quien suscribe, Director(a) de la <strong>Escuela BA¡sica Bolivariana "Pedro Felipe LedA-a"</strong>, hace constar por medio de la presente que el ciudaA±o(a) <strong>${repNA°}</strong>, titular de la CAcdA-a de IdA-ad NA° <strong>${repCed}</strong>, representante legal del estudA-ante <strong>${student}</strong>, titular de la CAcdA-a Escolar/IdA-ad NA° <strong>${idNA°}</strong>, cursante del <strong>${grade} AA±o</strong>, <strong>SecciA3n "${section}"</strong>, asistiA3 a nuestra instituciA3n edA-a el dA-a <strong>${fechaAsist}</strong>.</p>
+        <p>Constancia que se expide a peticiA3n de la parte interesada en la ciudad de Caracas.</p>
+      `;
+      shouldA-ate = true;
+    }
+
+    if (shouldA-ate) {
+      setTimeout(() => {
+        window.print();
+        updaA±ocumentPreview();
+      }, 300);
+    } else {
+      window.print();
+    }
+  });
+
+  // Initial render
+  updaA±ocumentPreview();
+</script>
+
+</body>
+</html>
+

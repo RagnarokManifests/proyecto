@@ -209,6 +209,7 @@
   .campo input:focus, .campo select:focus{outline:none;border-color:var(--azul);}
   .con-boton{display:flex;gap:6px;}
   .con-boton input{flex:1;}
+  .pwd-hint{display:block;font-size:0.75rem;color:#888;margin-top:4px;}
   .ver-clave{font-size:0.8rem;color:var(--azul);padding:0 8px;border:1px solid #c9ced6;border-radius:4px;background:var(--gris);}
   .login-btn{
     width:100%;padding:11px;margin-top:6px;
@@ -436,6 +437,7 @@ for enlace in menu.select('a'):
       <button class="login-btn" id="loginSubmitBtn">Entrar</button>
       <div class="login-links">
         <a href="#" id="switchToRegister">¿No tienes cuenta? Regístrate</a>
+        <a href="#" id="switchToRecuperar">¿Olvidaste tu contraseña?</a>
       </div>
     </div>
 
@@ -459,17 +461,53 @@ for enlace in menu.select('a'):
       <div class="campo">
         <label for="regPwd">Contraseña</label>
         <div class="con-boton">
-          <input type="password" id="regPwd">
+          <input type="password" id="regPwd" autocomplete="new-password">
           <button type="button" class="ver-clave" id="toggleRegPwd">Ver</button>
         </div>
+        <small class="pwd-hint">Mínimo 6 caracteres. Puedes usar letras, números y caracteres especiales (ej: @ # $ % !).</small>
       </div>
       <div class="campo">
         <label for="regPwdConfirm">Repite la contraseña</label>
-        <input type="password" id="regPwdConfirm">
+        <input type="password" id="regPwdConfirm" autocomplete="new-password">
       </div>
       <button class="login-btn verde" id="regSubmitBtn">Registrarme</button>
       <div class="login-links">
         <a href="#" id="switchToLogin">Ya tengo cuenta</a>
+      </div>
+    </div>
+
+
+    <div id="recuperarFormContainer" style="display:none;">
+      <div class="login-title">Recuperar contraseña</div>
+      <div class="login-subtitle">Te enviaremos un código al correo con el que te registraste</div>
+      <div id="recuperarPaso1">
+        <div class="campo">
+          <label for="recEmail">Correo</label>
+          <input type="email" id="recEmail">
+        </div>
+        <button class="login-btn" id="recEnviarBtn">Enviar código</button>
+      </div>
+      <div id="recuperarPaso2" style="display:none;">
+        <div class="campo">
+          <label for="recCodigo">Código recibido</label>
+          <input type="text" id="recCodigo" inputmode="numeric" maxlength="6" autocomplete="one-time-code">
+        </div>
+        <div class="campo">
+          <label for="recPwd">Nueva contraseña</label>
+          <div class="con-boton">
+            <input type="password" id="recPwd" autocomplete="new-password">
+            <button type="button" class="ver-clave" id="toggleRecPwd">Ver</button>
+          </div>
+          <small class="pwd-hint">Mínimo 6 caracteres. Puedes usar letras, números y caracteres especiales.</small>
+        </div>
+        <div class="campo">
+          <label for="recPwdConfirm">Repite la nueva contraseña</label>
+          <input type="password" id="recPwdConfirm">
+        </div>
+        <button class="login-btn verde" id="recRestablecerBtn">Restablecer contraseña</button>
+      </div>
+      <div class="login-links">
+        <a href="#" id="recVolverLogin">Volver a iniciar sesión</a>
       </div>
     </div>
   </div>
@@ -480,6 +518,7 @@ for enlace in menu.select('a'):
   const msg = document.getElementById('modalStatusMsg');
   const formLogin = document.getElementById('loginFormContainer');
   const formRegistro = document.getElementById('registerFormContainer');
+  const formRecuperar = document.getElementById('recuperarFormContainer');
 
   const btnLogin = document.getElementById('openLoginModal');
   const linkConstancias = document.getElementById('constanciasLink');
@@ -500,6 +539,7 @@ for enlace in menu.select('a'):
     ocultarMensaje();
     formLogin.style.display = 'none';
     formRegistro.style.display = 'none';
+    formRecuperar.style.display = 'none';
     form.style.display = 'block';
   }
 
@@ -515,6 +555,13 @@ for enlace in menu.select('a'):
 
   document.getElementById('switchToRegister').addEventListener('click', (e) => { e.preventDefault(); mostrar(formRegistro); });
   document.getElementById('switchToLogin').addEventListener('click', (e) => { e.preventDefault(); mostrar(formLogin); });
+  document.getElementById('switchToRecuperar').addEventListener('click', (e) => {
+    e.preventDefault();
+    mostrar(formRecuperar);
+    document.getElementById('recuperarPaso1').style.display = 'block';
+    document.getElementById('recuperarPaso2').style.display = 'none';
+  });
+  document.getElementById('recVolverLogin').addEventListener('click', (e) => { e.preventDefault(); mostrar(formLogin); });
 
   document.getElementById('togglePwd').addEventListener('click', () => {
     const campo = document.getElementById('loginPwd');
@@ -524,6 +571,11 @@ for enlace in menu.select('a'):
     const tipo = document.getElementById('regPwd').type === 'password' ? 'text' : 'password';
     document.getElementById('regPwd').type = tipo;
     document.getElementById('regPwdConfirm').type = tipo;
+  });
+  document.getElementById('toggleRecPwd').addEventListener('click', () => {
+    const tipo = document.getElementById('recPwd').type === 'password' ? 'text' : 'password';
+    document.getElementById('recPwd').type = tipo;
+    document.getElementById('recPwdConfirm').type = tipo;
   });
 
   async function api(ruta, datos) {
@@ -586,6 +638,57 @@ for enlace in menu.select('a'):
     } catch (err) {
       mostrarMensaje(err.message, 'error');
     }
+  });
+
+  const recPaso1 = document.getElementById('recuperarPaso1');
+  const recPaso2 = document.getElementById('recuperarPaso2');
+
+  document.getElementById('recEnviarBtn').addEventListener('click', async () => {
+    const correo = document.getElementById('recEmail').value.trim();
+    if (!correo) {
+      mostrarMensaje('Escribe tu correo.', 'error');
+      return;
+    }
+    try {
+      await api('/api/recuperar', { email: correo });
+    } catch (err) {
+      mostrarMensaje(err.message, 'error');
+      return;
+    }
+    recPaso1.style.display = 'none';
+    recPaso2.style.display = 'block';
+    mostrarMensaje('Te enviamos un código al correo. Revisa también el spam.', 'ok');
+  });
+
+  document.getElementById('recRestablecerBtn').addEventListener('click', async () => {
+    const correo = document.getElementById('recEmail').value.trim();
+    const codigo = document.getElementById('recCodigo').value.trim();
+    const clave = document.getElementById('recPwd').value;
+    const clave2 = document.getElementById('recPwdConfirm').value;
+
+    if (!codigo || !clave || !clave2) {
+      mostrarMensaje('Faltan datos por llenar.', 'error');
+      return;
+    }
+    if (clave.length < 6) {
+      mostrarMensaje('La contraseña debe tener al menos 6 caracteres.', 'error');
+      return;
+    }
+    if (clave !== clave2) {
+      mostrarMensaje('Las contraseñas no son iguales.', 'error');
+      return;
+    }
+    try {
+      await api('/api/restablecer', { email: correo, codigo: codigo, password: clave });
+    } catch (err) {
+      mostrarMensaje(err.message, 'error');
+      return;
+    }
+    ['recEmail', 'recCodigo', 'recPwd', 'recPwdConfirm'].forEach(id => document.getElementById(id).value = '');
+    recPaso1.style.display = 'block';
+    recPaso2.style.display = 'none';
+    mostrarMensaje('Contraseña actualizada. Ya puedes iniciar sesión.', 'ok');
+    setTimeout(() => mostrar(formLogin), 1800);
   });
 
   async function revisarSesion() {

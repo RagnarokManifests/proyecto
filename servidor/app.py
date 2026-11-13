@@ -1,7 +1,9 @@
 import os
 import secrets
+import smtplib
 import sqlite3
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
+from email.message import EmailMessage
 from functools import wraps
 from pathlib import Path
 
@@ -54,6 +56,15 @@ def crear_tablas():
             rol           TEXT NOT NULL,
             creado        TEXT NOT NULL
         );
+        CREATE TABLE IF NOT EXISTS recuperaciones (
+            id          INTEGER PRIMARY KEY AUTOINCREMENT,
+            usuario_id  INTEGER NOT NULL REFERENCES usuarios(id),
+            correo      TEXT NOT NULL,
+            codigo_hash TEXT NOT NULL,
+            expira      TEXT NOT NULL,
+            usado       INTEGER NOT NULL DEFAULT 0,
+            creado      TEXT NOT NULL
+        );
         CREATE TABLE IF NOT EXISTS constancias (
             id           INTEGER PRIMARY KEY AUTOINCREMENT,
             fecha        TEXT NOT NULL,
@@ -82,6 +93,34 @@ def crear_tablas():
 
 def ahora():
     return datetime.now(timezone.utc).isoformat()
+
+
+class ErrorCorreo(Exception):
+    pass
+
+
+def enviar_correo(destino, asunto, cuerpo):
+    host = os.environ.get("SMTP_HOST")
+    usuario = os.environ.get("SMTP_USER")
+    clave = os.environ.get("SMTP_PASSWORD")
+    remitente = os.environ.get("SMTP_FROM") or usuario
+    if not host or not usuario or not clave:
+        raise ErrorCorreo("El envío de correos no está configurado. Contacta al administrador.")
+    puerto = int(os.environ.get("SMTP_PORT", "587"))
+
+    mensaje = EmailMessage()
+    mensaje["Subject"] = asunto
+    mensaje["From"] = remitente
+    mensaje["To"] = destino
+    mensaje.set_content(cuerpo)
+
+    try:
+        with smtplib.SMTP(host, puerto, timeout=20) as smtp:
+            smtp.starttls()
+            smtp.login(usuario, clave)
+            smtp.send_message(mensaje)
+    except Exception:
+        raise ErrorCorreo("No se pudo enviar el correo. Revisa la configuración SMTP.")
 
 
 def usuario_publico(fila):
@@ -156,6 +195,69 @@ def logout():
 def sesion():
     fila = usuario_actual()
     return jsonify(user=usuario_publico(fila) if fila else None)
+
+
+@app.post("/api/recuperar")
+def recuperar():
+    datos = request.get_json(silent=True) or {}
+    correo = str(datos.get("email", "")).strip().lower()
+    if not correo:
+        return jsonify(error="Escribe tu correo."), 400
+
+    fila = db().execute("SELECT * FROM usuarios WHERE lower(correo) = ?", (correo,)).fetchone()
+    if fila is None:
+        return jsonify(error="Ese correo no está registrado."), 404
+
+    codigo = f"{secrets.randbelow(1000000):06d}"
+    expira = (datetime.now(timezone.utc) + timedelta(minutes=15)).isoformat()
+    db().execute("UPDATE recuperaciones SET usado = 1 WHERE usuario_id = ? AND usado = 0", (fila["id"],))
+    db().execute(
+        "INSERT INTO recuperaciones (usuario_id, correo, codigo_hash, expira, usado, creado) VALUES (?, ?, ?, ?, 0, ?)",
+        (fila["id"], fila["correo"], generate_password_hash(codigo), expira, ahora()),
+    )
+    db().commit()
+
+    cuerpo = (
+        f"Hola {fila['nombre']},\n\n"
+        f"Tu código para restablecer la contraseña es: {codigo}\n\n"
+        "El código vence en 15 minutos. Si no solicitaste este cambio, ignora este mensaje."
+    )
+    try:
+        enviar_correo(fila["correo"], "Recuperación de contraseña", cuerpo)
+    except ErrorCorreo as e:
+        return jsonify(error=str(e)), 503
+    return jsonify(ok=True)
+
+
+@app.post("/api/restablecer")
+def restablecer():
+    datos = request.get_json(silent=True) or {}
+    correo = str(datos.get("email", "")).strip().lower()
+    codigo = str(datos.get("codigo", "")).strip()
+    clave = str(datos.get("password", ""))
+
+    if not correo or not codigo or not clave:
+        return jsonify(error="Faltan datos por llenar."), 400
+    if len(clave) < 6:
+        return jsonify(error="La contraseña debe tener al menos 6 caracteres."), 400
+
+    fila = db().execute("SELECT * FROM usuarios WHERE lower(correo) = ?", (correo,)).fetchone()
+    if fila is None:
+        return jsonify(error="Ese correo no está registrado."), 404
+
+    rec = db().execute(
+        "SELECT * FROM recuperaciones WHERE usuario_id = ? AND usado = 0 ORDER BY id DESC LIMIT 1",
+        (fila["id"],),
+    ).fetchone()
+    if rec is None or not check_password_hash(rec["codigo_hash"], codigo):
+        return jsonify(error="El código es incorrecto."), 400
+    if datetime.fromisoformat(rec["expira"]) < datetime.now(timezone.utc):
+        return jsonify(error="El código venció. Solicita uno nuevo."), 400
+
+    db().execute("UPDATE usuarios SET password_hash = ? WHERE id = ?", (generate_password_hash(clave), fila["id"]))
+    db().execute("UPDATE recuperaciones SET usado = 1 WHERE id = ?", (rec["id"],))
+    db().commit()
+    return jsonify(ok=True)
 
 
 @app.get("/api/constancias")

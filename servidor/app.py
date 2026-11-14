@@ -1,4 +1,5 @@
 import os
+import re
 import secrets
 import smtplib
 import sqlite3
@@ -161,6 +162,8 @@ def registro():
         return jsonify(error="Faltan datos por llenar."), 400
     if len(clave) < 6:
         return jsonify(error="La contraseña debe tener al menos 6 caracteres."), 400
+    if not re.search(r"[^a-zA-Z0-9\s]", clave):
+        return jsonify(error="La contraseña debe tener al menos un carácter especial (ejemplo: !@#$%&*)."), 400
     try:
         db().execute(
             "INSERT INTO usuarios (username, password_hash, nombre, correo, rol, creado) VALUES (?, ?, ?, ?, ?, ?)",
@@ -240,6 +243,8 @@ def restablecer():
         return jsonify(error="Faltan datos por llenar."), 400
     if len(clave) < 6:
         return jsonify(error="La contraseña debe tener al menos 6 caracteres."), 400
+    if not re.search(r"[^a-zA-Z0-9\s]", clave):
+        return jsonify(error="La contraseña debe tener al menos un carácter especial (ejemplo: !@#$%&*)."), 400
 
     fila = db().execute("SELECT * FROM usuarios WHERE lower(correo) = ?", (correo,)).fetchone()
     if fila is None:

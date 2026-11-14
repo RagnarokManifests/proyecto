@@ -209,6 +209,7 @@
   .campo input:focus, .campo select:focus{outline:none;border-color:var(--azul);}
   .con-boton{display:flex;gap:6px;}
   .con-boton input{flex:1;}
+  .pwd-hint{display:block;font-size:0.75rem;color:#888;margin-top:4px;}
   .ver-clave{font-size:0.8rem;color:var(--azul);padding:0 8px;border:1px solid #c9ced6;border-radius:4px;background:var(--gris);}
   .login-btn{
     width:100%;padding:11px;margin-top:6px;
@@ -435,6 +436,7 @@ for enlace in menu.select('a'):
       </div>
       <button class="login-btn" id="loginSubmitBtn">Entrar</button>
       <div class="login-links">
+        <a href="#" id="switchToRecuperar">Recuperar contraseña</a>
         <a href="#" id="switchToRegister">¿No tienes cuenta? Regístrate</a>
       </div>
     </div>
@@ -462,6 +464,7 @@ for enlace in menu.select('a'):
           <input type="password" id="regPwd">
           <button type="button" class="ver-clave" id="toggleRegPwd">Ver</button>
         </div>
+        <small class="pwd-hint">Mínimo 6 caracteres y al menos un carácter especial (ej: ! @ # $ % & *).</small>
       </div>
       <div class="campo">
         <label for="regPwdConfirm">Repite la contraseña</label>
@@ -472,6 +475,45 @@ for enlace in menu.select('a'):
         <a href="#" id="switchToLogin">Ya tengo cuenta</a>
       </div>
     </div>
+
+
+    <div id="recuperarFormContainer" style="display:none;">
+      <div class="login-title">Recuperar contraseña</div>
+      <div class="login-subtitle">Sistema de recuperación de cuenta</div>
+
+      <div id="recuperarPaso1">
+        <div class="campo">
+          <label for="recUserOrEmail">Usuario o correo registrado</label>
+          <input type="text" id="recUserOrEmail" placeholder="Ingresa tu usuario o correo">
+        </div>
+        <button class="login-btn" id="recBuscarBtn">Buscar cuenta y enviar correo</button>
+      </div>
+
+      <div id="recuperarPaso2" style="display:none;">
+        <div id="recAvisoExito" style="background:#e8f4fd;border:1px solid #b8daff;color:#004085;padding:12px;border-radius:6px;font-size:0.86rem;margin-bottom:14px;text-align:left;line-height:1.4;">
+          <strong>Correo enviado:</strong> La información para recuperar tu contraseña se ha enviado al correo registrado:<br>
+          <span id="recCorreoTexto" style="font-weight:700;color:var(--azul);"></span>
+        </div>
+        <input type="hidden" id="recTargetUser">
+        <div class="campo">
+          <label for="recPwd">Nueva contraseña</label>
+          <div class="con-boton">
+            <input type="password" id="recPwd" autocomplete="new-password">
+            <button type="button" class="ver-clave" id="toggleRecPwd">Ver</button>
+          </div>
+          <small class="pwd-hint">Mínimo 6 caracteres y al menos un carácter especial (ej: ! @ # $ % & *).</small>
+        </div>
+        <div class="campo">
+          <label for="recPwdConfirm">Repite la nueva contraseña</label>
+          <input type="password" id="recPwdConfirm">
+        </div>
+        <button class="login-btn verde" id="recRestablecerBtn">Restablecer contraseña</button>
+      </div>
+
+      <div class="login-links" style="margin-top:14px;">
+        <a href="#" id="recVolverLogin">Volver a iniciar sesión</a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -480,6 +522,7 @@ for enlace in menu.select('a'):
   const msg = document.getElementById('modalStatusMsg');
   const formLogin = document.getElementById('loginFormContainer');
   const formRegistro = document.getElementById('registerFormContainer');
+  const formRecuperar = document.getElementById('recuperarFormContainer');
 
   const btnLogin = document.getElementById('openLoginModal');
   const linkConstancias = document.getElementById('constanciasLink');
@@ -500,6 +543,7 @@ for enlace in menu.select('a'):
     ocultarMensaje();
     formLogin.style.display = 'none';
     formRegistro.style.display = 'none';
+    formRecuperar.style.display = 'none';
     form.style.display = 'block';
   }
 
@@ -516,6 +560,102 @@ for enlace in menu.select('a'):
   document.getElementById('switchToRegister').addEventListener('click', (e) => { e.preventDefault(); mostrar(formRegistro); });
   document.getElementById('switchToLogin').addEventListener('click', (e) => { e.preventDefault(); mostrar(formLogin); });
 
+  function abrirPaso2Recuperacion(username, email) {
+    document.getElementById('recuperarPaso1').style.display = 'none';
+    document.getElementById('recuperarPaso2').style.display = 'block';
+    document.getElementById('recTargetUser').value = username;
+    document.getElementById('recCorreoTexto').innerText = email;
+    mostrarMensaje('Se envió la información al correo registrado al usuario.', 'ok');
+  }
+
+  document.getElementById('switchToRecuperar').addEventListener('click', (e) => {
+    e.preventDefault();
+    mostrar(formRecuperar);
+    const usuarioIngresado = document.getElementById('loginUser').value.trim().toLowerCase();
+    const usuarios = leerUsuarios();
+
+    if (usuarioIngresado && usuarios[usuarioIngresado]) {
+      const u = usuarios[usuarioIngresado];
+      abrirPaso2Recuperacion(u.username, u.email);
+    } else {
+      document.getElementById('recuperarPaso1').style.display = 'block';
+      document.getElementById('recuperarPaso2').style.display = 'none';
+      if (usuarioIngresado) {
+        document.getElementById('recUserOrEmail').value = usuarioIngresado;
+      }
+    }
+  });
+
+  document.getElementById('recBuscarBtn').addEventListener('click', () => {
+    const valor = document.getElementById('recUserOrEmail').value.trim().toLowerCase();
+    if (!valor) {
+      mostrarMensaje('Escribe tu usuario o correo.', 'error');
+      return;
+    }
+    const usuarios = leerUsuarios();
+    let u = usuarios[valor];
+    if (!u) {
+      for (const k in usuarios) {
+        if (usuarios[k].email && usuarios[k].email.toLowerCase() === valor) {
+          u = usuarios[k];
+          break;
+        }
+      }
+    }
+    if (u) {
+      abrirPaso2Recuperacion(u.username, u.email);
+    } else {
+      mostrarMensaje('No se encontró ninguna cuenta con ese usuario o correo.', 'error');
+    }
+  });
+
+  document.getElementById('recRestablecerBtn').addEventListener('click', () => {
+    const username = document.getElementById('recTargetUser').value;
+    const clave = document.getElementById('recPwd').value;
+    const clave2 = document.getElementById('recPwdConfirm').value;
+
+    if (!clave || !clave2) {
+      mostrarMensaje('Faltan datos por llenar.', 'error');
+      return;
+    }
+    if (clave.length < 6) {
+      mostrarMensaje('La contraseña debe tener al menos 6 caracteres.', 'error');
+      return;
+    }
+    if (!/[^a-zA-Z0-9\s]/.test(clave)) {
+      mostrarMensaje('La contraseña debe tener al menos un carácter especial (ejemplo: !@#$%&*).', 'error');
+      return;
+    }
+    if (clave !== clave2) {
+      mostrarMensaje('Las contraseñas no son iguales.', 'error');
+      return;
+    }
+
+    const usuarios = leerUsuarios();
+    if (usuarios[username]) {
+      usuarios[username].password = clave;
+      localStorage.setItem('users', JSON.stringify(usuarios));
+      ['recPwd', 'recPwdConfirm', 'recUserOrEmail'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      mostrarMensaje('Contraseña actualizada con éxito. Ya puedes iniciar sesión.', 'ok');
+      setTimeout(() => {
+        mostrar(formLogin);
+        document.getElementById('loginPwd').value = '';
+        const linkRec = document.getElementById('switchToRecuperar');
+        if (linkRec) { linkRec.style.color = ''; linkRec.style.fontWeight = ''; }
+      }, 1800);
+    } else {
+      mostrarMensaje('Error al restablecer la contraseña.', 'error');
+    }
+  });
+
+  document.getElementById('recVolverLogin').addEventListener('click', (e) => {
+    e.preventDefault();
+    mostrar(formLogin);
+  });
+
   document.getElementById('togglePwd').addEventListener('click', () => {
     const campo = document.getElementById('loginPwd');
     campo.type = campo.type === 'password' ? 'text' : 'password';
@@ -524,6 +664,11 @@ for enlace in menu.select('a'):
     const tipo = document.getElementById('regPwd').type === 'password' ? 'text' : 'password';
     document.getElementById('regPwd').type = tipo;
     document.getElementById('regPwdConfirm').type = tipo;
+  });
+  document.getElementById('toggleRecPwd').addEventListener('click', () => {
+    const tipo = document.getElementById('recPwd').type === 'password' ? 'text' : 'password';
+    document.getElementById('recPwd').type = tipo;
+    document.getElementById('recPwdConfirm').type = tipo;
   });
 
   function leerUsuarios() {
@@ -547,8 +692,12 @@ for enlace in menu.select('a'):
       mostrarMensaje('Faltan datos por llenar.', 'error');
       return;
     }
-    if (clave.length < 3) {
-      mostrarMensaje('La contraseña debe tener al menos 3 caracteres.', 'error');
+    if (clave.length < 6) {
+      mostrarMensaje('La contraseña debe tener al menos 6 caracteres.', 'error');
+      return;
+    }
+    if (!/[^a-zA-Z0-9\s]/.test(clave)) {
+      mostrarMensaje('La contraseña debe tener al menos un carácter especial (ejemplo: !@#$%&*).', 'error');
       return;
     }
     if (clave !== clave2) {
@@ -585,9 +734,16 @@ for enlace in menu.select('a'):
       localStorage.setItem('activeUser', JSON.stringify(encontrado));
       document.getElementById('loginUser').value = '';
       document.getElementById('loginPwd').value = '';
+      const linkRec = document.getElementById('switchToRecuperar');
+      if (linkRec) { linkRec.style.color = ''; linkRec.style.fontWeight = ''; }
       window.location.href = 'constancias.html';
     } else {
       mostrarMensaje('Usuario o contraseña incorrectos.', 'error');
+      const linkRec = document.getElementById('switchToRecuperar');
+      if (linkRec) {
+        linkRec.style.color = 'var(--rojo)';
+        linkRec.style.fontWeight = '700';
+      }
     }
   });
 

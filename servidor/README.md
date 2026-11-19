@@ -1,41 +1,65 @@
-# Sistema de constancias — U.E.N. "Pedro Felipe Ledezma"
+# Sistema de constancias - E.B.B. Pedro Felipe Ledezma
 
-Página web + servidor en Python (Flask) con base de datos SQLite (`escuela.db`).
+## Cómo ejecutar
 
-## Cómo usarlo
+1. Abre una terminal en la carpeta `servidor`.
+2. Instala las dependencias (solo la primera vez):
 
-```
-pip install -r requirements.txt
+   ```powershell
+   pip install -r requirements.txt
+   ```
+
+3. Inicia el servidor:
+
+   ```powershell
+   python app.py
+   ```
+
+4. Abre en el navegador:
+
+   ```text
+   http://127.0.0.1:5000
+   ```
+
+> Importante: el sistema debe abrirse desde `http://127.0.0.1:5000` (no haciendo doble clic en los HTML), porque el registro, las constancias y las solicitudes se guardan en la base de datos SQLite.
+
+## Roles
+
+- **Estudiante**: se registra desde la página principal y entra a **Mi Módulo** para solicitar sus constancias y ver las que Control de Estudio haya aceptado.
+- **Control de Estudio**: genera/guarda constancias y recibe las solicitudes en una ventana emergente con los botones **Aceptar** y **Aceptar todas**.
+- **Docente**: cuenta base. El usuario `admin` tiene acceso total al sistema.
+- **Administrador del sistema**: el usuario `admin` puede crear usuarios y cambiar roles desde el panel **Usuarios y roles** del módulo de usuario.
+
+## Flujo de una constancia
+
+1. Control de Estudio llena los datos del estudiante y pulsa **Imprimir o guardar en PDF**. La constancia queda guardada en la base de datos.
+2. El estudiante entra a **Mi Módulo** y solicita la constancia indicando su usuario, nombre completo o cédula.
+   - Si esa constancia todavía no existe, el sistema muestra el aviso **"Todavía esa constancia no está disponible"**.
+3. A Control de Estudio le aparece una ventana emergente con la solicitud. Puede aceptarla una por una o usar **Aceptar todas**.
+4. Cuando la acepta, la constancia queda disponible para el estudiante en **Mis solicitudes** con el botón **Ver constancia**.
+
+## Base de datos
+
+La base de datos es `servidor/escuela.db`. Al iniciar el servidor se agregan automáticamente las columnas y tablas nuevas:
+
+- `usuarios`: cédula y teléfono.
+- `solicitudes`: solicitudes de constancias y su estado.
+
+## Correos (opcional)
+
+Para recuperación de contraseña y avisos por correo configura las variables de entorno:
+
+```powershell
+$env:SMTP_HOST="smtp.tu-correo.com"
+$env:SMTP_PORT="587"
+$env:SMTP_USER="tu-correo@ejemplo.com"
+$env:SMTP_PASSWORD="tu-clave"
+$env:SMTP_FROM="tu-correo@ejemplo.com"
 python app.py
 ```
 
-Abre http://localhost:5000
+Si no se configuran, el sistema sigue funcionando; solo no enviará correos.
 
-La base de datos `escuela.db` ya viene creada, con las tablas vacías y el usuario `admin`.
-Si la borras, se vuelve a crear al arrancar y la nueva clave del `admin` se muestra **una sola vez** en la consola
-(o defínela tú con la variable `ADMIN_PASSWORD`).
+## Clave del administrador
 
-Esta carpeta es independiente de la página publicada en GitHub Pages (los archivos de la raíz del repositorio),
-porque GitHub Pages no puede ejecutar Python.
-
-## Recuperar contraseña
-
-En la ventana de inicio de sesión, el enlace "¿Olvidaste tu contraseña?" envía un código de 6 dígitos
-al correo con el que se registró el usuario. El código vence a los 15 minutos y sirve una sola vez.
-
-Para que el servidor pueda enviar correos, define estas variables de entorno antes de arrancar:
-
-- `SMTP_HOST` — servidor de correo (ej: `smtp.gmail.com`)
-- `SMTP_PORT` — puerto (por defecto `587`, con STARTTLS)
-- `SMTP_USER` — usuario/correo emisor
-- `SMTP_PASSWORD` — contraseña o clave de aplicación del correo
-- `SMTP_FROM` — remitente que verá el destinatario (opcional, por defecto igual a `SMTP_USER`)
-
-Si no están definidas, la pantalla de recuperación avisará de que el envío de correos no está configurado.
-
-## Qué guarda la base de datos
-
-- `usuarios`: usuario, nombre, correo, rol y la contraseña cifrada (scrypt).
-- `constancias`: historial de constancias impresas, con su contenido.
-
-Para respaldar los datos basta con copiar `escuela.db`.
+Si la base de datos es nueva, el servidor muestra en la terminal la clave del usuario `admin`. Si ya existe, se conserva la clave que tenías. Puedes definir otra al crear una base nueva con la variable `ADMIN_PASSWORD`.

@@ -100,9 +100,40 @@
     .preview-modal-head button { background: var(--rojo); color: white; border: none; width: 34px; height: 34px; border-radius: 50%; font-size: 1.3rem; cursor: pointer; flex-shrink: 0; }
     .preview-modal .document-sheet { border-radius: 0 0 4px 4px; }
 
+    .requests-panel { background: white; padding: 30px; border-radius: 16px; border: 1px solid var(--papel-borde); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04); margin-top: 30px; }
+    .requests-list { display: flex; flex-direction: column; gap: 12px; }
+    .request-card { display: flex; justify-content: space-between; gap: 16px; align-items: center; border: 1px solid var(--papel-borde); border-left: 5px solid var(--amarillo); border-radius: 10px; padding: 14px 16px; background: #fffdf7; }
+    .request-card.aprobada { border-left-color: #2e8b47; background: #f6fbf7; }
+    .request-card.rechazada { border-left-color: var(--rojo); background: #fdf6f7; }
+    .request-info { font-size: 0.9rem; line-height: 1.45; }
+    .request-info strong { color: var(--azul); font-size: 1rem; }
+    .request-user { color: rgba(45,42,38,0.6); font-size: 0.82rem; margin-left: 6px; }
+    .request-meta { color: rgba(45,42,38,0.72); font-size: 0.82rem; }
+    .request-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; flex-shrink: 0; }
+    .accept-btn { background: #2e8b47; color: #fff; border: none; padding: 8px 16px; border-radius: 7px; font-weight: 700; cursor: pointer; font-size: 0.85rem; }
+    .accept-btn:hover { background: #26753b; }
+    .reject-btn { background: var(--rojo); color: #fff; border: none; padding: 8px 16px; border-radius: 7px; font-weight: 700; cursor: pointer; font-size: 0.85rem; }
+    .reject-btn:hover { background: #a0182e; }
+    .state-label { font-size: 0.8rem; font-weight: 700; color: #2e8b47; }
+    .state-label.rechazada { color: var(--rojo); }
+    .request-summary { font-size: 0.85rem; color: rgba(45,42,38,0.65); margin-bottom: 2px; }
+    .accept-all-btn { background: #2e8b47 !important; }
+    .accept-all-btn:hover { background: #26753b !important; }
+
+    .request-modal { display: none; position: fixed; inset: 0; background: rgba(11,31,58,0.7); z-index: 600; padding: 20px; align-items: center; justify-content: center; }
+    .request-modal.open { display: flex; }
+    .request-modal-box { background: white; width: 100%; max-width: 560px; border-radius: 14px; border-top: 5px solid var(--amarillo); box-shadow: 0 18px 50px rgba(0,0,0,0.25); overflow: hidden; }
+    .request-modal-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 2px solid var(--crema); }
+    .request-modal-head strong { color: var(--azul); font-family: 'Poppins', sans-serif; font-size: 1.05rem; }
+    .request-modal-head span { display: block; font-size: 0.82rem; color: rgba(45,42,38,0.65); margin-top: 2px; }
+    .request-modal-head button { background: var(--rojo); color: #fff; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; flex-shrink: 0; }
+    .request-modal-list { padding: 16px; display: flex; flex-direction: column; gap: 10px; max-height: 58vh; overflow-y: auto; }
+    .request-modal-actions { padding: 0 16px 16px; }
+    .request-modal-actions .accept-all-btn { width: 100%; padding: 12px; border: none; border-radius: 8px; color: #fff; font-weight: 700; cursor: pointer; }
+
     @media print {
       body { background: white; color: black; }
-      header, main > .welcome-bar, .form-panel, .preview-header-label, nav, .history-panel, .preview-modal { display: none !important; }
+      header, main > .welcome-bar, .form-panel, .preview-header-label, nav, .history-panel, .requests-panel, .preview-modal, .request-modal { display: none !important; }
       main { padding: 0; margin: 0; max-width: 100%; width: 100%; }
       .portal-grid { grid-template-columns: 1fr; gap: 0; }
       .document-sheet { border: none; box-shadow: none; padding: 0; margin: 0; width: 100%; aspect-ratio: auto; }
@@ -262,6 +293,19 @@
     </div>
     <div class="history-count" id="historyCount"></div>
   </div>
+
+  <div class="requests-panel">
+    <div class="history-head">
+      <h3>Solicitudes de constancias</h3>
+      <div class="history-tools">
+        <button type="button" id="refreshRequestsBtn">Actualizar</button>
+        <button type="button" class="accept-all-btn" id="acceptAllBtn">Aceptar todas</button>
+      </div>
+    </div>
+    <div class="requests-list" id="requestsList">
+      <div class="history-empty">Cargando solicitudes...</div>
+    </div>
+  </div>
 </main>
 
 <div class="preview-modal" id="previewModal">
@@ -274,265 +318,22 @@
   </div>
 </div>
 
-<script>
-  const activeUser = JSON.parse(localStorage.getItem('activeUser'));
-  if (!activeUser) {
-    alert('Acceso denegado. Por favor, inicia sesión primero.');
-    window.location.href = 'index.html';
-  } else if (activeUser.role !== 'Control de Estudio' && activeUser.username !== 'admin') {
-    alert('Acceso denegado. Esta sección es solo para Control de Estudio.');
-    localStorage.removeItem('activeUser');
-    window.location.href = 'index.html';
-  } else {
-    document.getElementById('userName').innerText = activeUser.fullName;
-    document.getElementById('userRole').innerText = activeUser.role;
-  }
+<div class="request-modal" id="requestModal">
+  <div class="request-modal-box">
+    <div class="request-modal-head">
+      <div>
+        <strong>Nueva solicitud de constancia</strong>
+        <span id="requestModalCount"></span>
+      </div>
+      <button type="button" id="closeRequestModal" title="Cerrar">&times;</button>
+    </div>
+    <div class="request-modal-list" id="requestModalList"></div>
+    <div class="request-modal-actions">
+      <button type="button" class="accept-all-btn" id="requestModalAcceptAll">Aceptar todas</button>
+    </div>
+  </div>
+</div>
 
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    localStorage.removeItem('activeUser');
-    window.location.href = 'index.html';
-  });
-
-  const certType = document.getElementById('certType');
-  const studentNameInput = document.getElementById('studentName');
-  const studentIdInput = document.getElementById('studentId');
-  const studentGrade = document.getElementById('studentGrade');
-  const studentSection = document.getElementById('studentSection');
-  const eduLevelInput = document.getElementById('eduLevel');
-  const schoolYear = document.getElementById('schoolYear');
-
-  const docTitle = document.getElementById('docTitle');
-  const docBody = document.getElementById('docBody');
-
-  const meses = [
-    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-  ];
-
-  function getClosingParagraph(finesLegales) {
-    const d = new Date();
-    const motivo = finesLegales ? "a los fines legales consiguientes" : "a petición de la parte interesada";
-    return `<p>Constancia que se expide ${motivo}, en la ciudad de Caracas, a los <strong>${d.getDate()}</strong> días del mes de <strong>${meses[d.getMonth()]}</strong> del año <strong>${d.getFullYear()}</strong>.</p>`;
-  }
-
-  function updateDocumentPreview() {
-    const student = studentNameInput.value.trim() || "[Nombre del Estudiante]";
-    const idNum = studentIdInput.value.trim() || "[Cédula/ID]";
-    const grade = studentGrade.value;
-    const section = studentSection.value;
-    const eduLevel = eduLevelInput.value.trim() || "[Educación]";
-    const year = schoolYear.value.trim() || "[Año Escolar]";
-    const type = certType.value;
-    const suscribe = `Quien suscribe, Profesora Glenda Josefina Hurtado, titular de la Cédula de Identidad N° V-6.220.989, Directora de la Unidad Educativa Nacional "Pedro Felipe Ledezma", por medio de la presente hace constar que`;
-
-    if (type === 'estudio') {
-      docTitle.innerText = "Constancia de Estudio";
-      docBody.innerHTML = `
-        <p>${suscribe} él o la estudiante: <strong>${student}</strong>, titular de la Cédula de Identidad N° <strong>${idNum}</strong>, cursa <strong>${grade} Año</strong> en la Sección <strong>${section}</strong> de Educación <strong>${eduLevel}</strong>, código 31059, en el año escolar: <strong>${year}</strong>, en esta institución.</p>
-        ${getClosingParagraph(false)}
-      `;
-    } else if (type === 'inscripcion') {
-      docTitle.innerText = "Constancia de Inscripción";
-      docBody.innerHTML = `
-        <p>${suscribe} él o la estudiante: <strong>${student}</strong>, titular de la Cédula de Identidad N° <strong>${idNum}</strong>, fue inscrito(a) en el <strong>${grade} Año</strong> en la Sección <strong>${section}</strong> de Educación <strong>${eduLevel}</strong>, código 31059, en el año escolar: <strong>${year}</strong>, en esta institución.</p>
-        ${getClosingParagraph(false)}
-      `;
-    } else if (type === 'aceptacion') {
-      docTitle.innerText = "Constancia de Aceptación de Cupo";
-      docBody.innerHTML = `
-        <p>Quien suscribe, Profesora Glenda Josefina Hurtado, titular de la Cédula de Identidad N° V-6.220.989, Directora de la Unidad Educativa Nacional "Pedro Felipe Ledezma", por medio de la presente otorga el cupo al (a la) estudiante: <strong>${student}</strong>, titular de la Cédula de Identidad N° <strong>${idNum}</strong>, para cursar <strong>${grade} Año</strong> de Educación <strong>${eduLevel}</strong>, código 31059, en el año escolar: <strong>${year}</strong>, en esta institución.</p>
-        ${getClosingParagraph(false)}
-      `;
-    } else if (type === 'asistencia') {
-      docTitle.innerText = "Constancia de Asistencia";
-      docBody.innerHTML = `
-        <p>${suscribe} él o la ciudadano(a): <strong>[Nombre del Representante]</strong>, titular de la Cédula de Identidad N° <strong>[Cédula del Representante]</strong>, representante del estudiante: <strong>${student}</strong>, titular de la Cédula de Identidad N° <strong>${idNum}</strong>, cursante del <strong>${grade} Año</strong> Sección <strong>${section}</strong>, asistió el día de hoy <strong>[fecha]</strong> a la institución para atender asuntos relacionados con su representado.</p>
-        ${getClosingParagraph(false)}
-      `;
-    } else if (type === 'labor_social') {
-      docTitle.innerText = "Constancia de Cumplimiento de Labor Social";
-      docBody.innerHTML = `
-        <p>Hago constar que el (la) estudiante: <strong>${student}</strong>, portador(a) de la Cédula de Identidad N° <strong>${idNum}</strong>, cursante del <strong>5to Año de Educación Media General</strong> sin mención, Sección <strong>${section}</strong>, en el año escolar: <strong>${year}</strong>. Cumplió con el artículo 27 del R.G.L.O.E, en el cual señala: "Además de los requisitos legales establecidos para la obtención del título de bachiller o de técnico medio (en la nueva LOE: Media General y Media Técnica), se deberá exigir a cada alumno su participación en una actividad que beneficie al respectivo plantel o a la comunidad. El Ministerio de Educación, Cultura y Deportes (ahora Ministerio del Poder Popular para la Educación) impartirán las orientaciones necesarias para el cumplimiento de esta disposición." En ese sentido el/la estudiante cumplió con <strong>[horas]</strong> horas de labor social desde el <strong>[fecha inicio]</strong> hasta <strong>[fecha fin]</strong>.</p>
-        <p>Actividades realizadas en beneficio de la comunidad o plantel:</p>
-        <ul style="margin: -10px 0 20px 45px;">
-          <li>Recuperación de paredes</li>
-          <li>Ambientación de aulas de clases</li>
-          <li>Recuperación de espacios comunes</li>
-          <li>Pintura de murales</li>
-          <li>Recuperación de sillas y mesas</li>
-        </ul>
-      `;
-    } else if (type === 'retiro') {
-      docTitle.innerText = "Constancia de Retiro";
-      docBody.innerHTML = `
-        <p>${suscribe} él o la estudiante: <strong>${student}</strong>, titular de la Cédula de Identidad N° <strong>${idNum}</strong>, cursaba <strong>${grade} Año</strong> de Educación <strong>${eduLevel}</strong>, código 31059, en el año escolar: <strong>${year}</strong>; se retira motivado a <strong>[motivo de retiro]</strong> de esta institución.</p>
-        ${getClosingParagraph(false)}
-      `;
-    }
-  }
-
-  certType.addEventListener('change', updateDocumentPreview);
-  studentNameInput.addEventListener('input', updateDocumentPreview);
-  studentIdInput.addEventListener('input', updateDocumentPreview);
-  studentGrade.addEventListener('change', updateDocumentPreview);
-  studentSection.addEventListener('input', updateDocumentPreview);
-  eduLevelInput.addEventListener('input', updateDocumentPreview);
-  schoolYear.addEventListener('input', updateDocumentPreview);
-
-  document.getElementById('printBtn').addEventListener('click', () => {
-    const type = certType.value;
-    let cancelled = false;
-
-    if (type === 'retiro') {
-      const motivo = prompt("Ingrese el motivo de retiro:");
-      if (motivo === null) { cancelled = true; }
-      else docBody.innerHTML = docBody.innerHTML.replace("[motivo de retiro]", motivo.trim() || "[motivo de retiro]");
-    } else if (type === 'labor_social') {
-      const horas = prompt("Ingrese la cantidad de horas cumplidas:");
-      if (horas === null) { cancelled = true; }
-      else {
-        const desde = prompt("Fecha de inicio (Desde):") || "[fecha inicio]";
-        const hasta = prompt("Fecha de fin (Hasta):") || "[fecha fin]";
-        docBody.innerHTML = docBody.innerHTML
-          .replace("[horas]", horas.trim() || "[horas]")
-          .replace("[fecha inicio]", desde.trim())
-          .replace("[fecha fin]", hasta.trim());
-      }
-    } else if (type === 'asistencia') {
-      const repNom = prompt("Nombre del representante:");
-      if (repNom === null) { cancelled = true; }
-      else {
-        const repCed = prompt("Cédula del representante:") || "[Cédula del Representante]";
-        const fechaAsist = prompt("Fecha de asistencia (Ej: 24 de Abril de 2026):") || "[fecha]";
-        docBody.innerHTML = docBody.innerHTML
-          .replace("[Nombre del Representante]", repNom.trim() || "[Nombre del Representante]")
-          .replace("[Cédula del Representante]", repCed.trim())
-          .replace("[fecha]", fechaAsist.trim());
-      }
-    }
-
-    if (cancelled) return;
-
-    guardarImpresion();
-
-    setTimeout(() => {
-      window.print();
-      updateDocumentPreview();
-    }, 300);
-  });
-
-  function leerHistorial() {
-    return JSON.parse(localStorage.getItem('constanciasImpresas') || '[]');
-  }
-
-  function guardarImpresion() {
-    const historial = leerHistorial();
-    historial.push({
-      fecha: new Date().toISOString(),
-      tipo: certType.options[certType.selectedIndex].text,
-      estudiante: studentNameInput.value.trim() || '(sin nombre)',
-      cedula: studentIdInput.value.trim() || '(sin cédula)',
-      anio: studentGrade.value,
-      seccion: studentSection.value.trim(),
-      anioEscolar: schoolYear.value.trim(),
-      impresoPor: activeUser ? activeUser.fullName : '',
-      titulo: docTitle.innerText,
-      html: docBody.innerHTML
-    });
-    localStorage.setItem('constanciasImpresas', JSON.stringify(historial));
-    mostrarHistorial();
-  }
-
-  function formatearFecha(iso) {
-    const d = new Date(iso);
-    return d.toLocaleDateString('es-VE') + ' ' + d.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit' });
-  }
-
-  function escaparHTML(texto) {
-    const div = document.createElement('div');
-    div.innerText = texto;
-    return div.innerHTML;
-  }
-
-  function mostrarHistorial() {
-    const filtro = document.getElementById('historySearch').value.trim().toLowerCase();
-    const historial = leerHistorial().map((r, i) => Object.assign({ indice: i }, r)).reverse();
-    const filas = historial.filter(r =>
-      !filtro || [r.estudiante, r.cedula, r.tipo, r.impresoPor].join(' ').toLowerCase().includes(filtro)
-    );
-    const cuerpo = document.getElementById('historyBody');
-
-    if (filas.length === 0) {
-      cuerpo.innerHTML = `<tr><td colspan="8" class="history-empty">${historial.length ? 'No hay resultados para esa búsqueda.' : 'Todavía no se ha impreso ninguna constancia.'}</td></tr>`;
-    } else {
-      cuerpo.innerHTML = filas.map(r => `
-        <tr>
-          <td>${formatearFecha(r.fecha)}</td>
-          <td>${escaparHTML(r.tipo)}</td>
-          <td>${escaparHTML(r.estudiante)}</td>
-          <td>${escaparHTML(r.cedula)}</td>
-          <td>${escaparHTML(r.anio)} / ${escaparHTML(r.seccion)}</td>
-          <td>${escaparHTML(r.anioEscolar)}</td>
-          <td>${escaparHTML(r.impresoPor)}</td>
-          <td>${r.html
-            ? `<button type="button" class="ver-btn" data-indice="${r.indice}">Ver</button>`
-            : `<button type="button" class="ver-btn" disabled title="Esta constancia se imprimió antes de que se guardara su contenido">No disponible</button>`}</td>
-        </tr>`).join('');
-    }
-    document.getElementById('historyCount').innerText = `Total de constancias impresas: ${historial.length}`;
-  }
-
-  document.getElementById('historySearch').addEventListener('input', mostrarHistorial);
-
-  const previewModal = document.getElementById('previewModal');
-
-  function verConstancia(indice) {
-    const r = leerHistorial()[indice];
-    if (!r || !r.html) return;
-    const hoja = document.getElementById('printArea').cloneNode(true);
-    hoja.removeAttribute('id');
-    const titulo = hoja.querySelector('#docTitle');
-    const cuerpo = hoja.querySelector('#docBody');
-    titulo.removeAttribute('id');
-    cuerpo.removeAttribute('id');
-    titulo.innerText = r.titulo || r.tipo;
-    cuerpo.innerHTML = r.html;
-    const contenedor = document.getElementById('previewModalSheet');
-    contenedor.innerHTML = '';
-    contenedor.appendChild(hoja);
-    document.getElementById('previewModalInfo').innerHTML =
-      `<strong>${escaparHTML(r.tipo)}</strong> &middot; ${escaparHTML(r.estudiante)}<br>Impresa el ${formatearFecha(r.fecha)} por ${escaparHTML(r.impresoPor)}`;
-    previewModal.classList.add('open');
-  }
-
-  function cerrarVista() {
-    previewModal.classList.remove('open');
-  }
-
-  document.getElementById('historyBody').addEventListener('click', (e) => {
-    const boton = e.target.closest('.ver-btn');
-    if (boton && !boton.disabled) verConstancia(Number(boton.dataset.indice));
-  });
-  document.getElementById('closePreviewModal').addEventListener('click', cerrarVista);
-  previewModal.addEventListener('click', (e) => { if (e.target === previewModal) cerrarVista(); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarVista(); });
-
-  document.getElementById('exportHistoryBtn').addEventListener('click', () => {
-    const historial = leerHistorial();
-    if (historial.length === 0) { alert('No hay constancias registradas todavía.'); return; }
-    const celda = v => '"' + String(v).replace(/"/g, '""') + '"';
-    const lineas = [['Fecha y hora', 'Tipo de constancia', 'Estudiante', 'Cédula', 'Año', 'Sección', 'Año escolar', 'Impresa por'].map(celda).join(';')];
-    historial.forEach(r => lineas.push([formatearFecha(r.fecha), r.tipo, r.estudiante, r.cedula, r.anio, r.seccion, r.anioEscolar, r.impresoPor].map(celda).join(';')));
-    const archivo = new Blob(['\ufeff' + lineas.join('\r\n')], { type: 'text/csv;charset=utf-8' });
-    const enlace = document.createElement('a');
-    enlace.href = URL.createObjectURL(archivo);
-    enlace.download = 'constancias_impresas.csv';
-    enlace.click();
-    URL.revokeObjectURL(enlace.href);
-  });
-
-  updateDocumentPreview();
-  mostrarHistorial();
-</script>
+<script src="constancias.js"></script>
 </body>
 </html>

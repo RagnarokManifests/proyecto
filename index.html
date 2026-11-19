@@ -251,6 +251,7 @@
       <a href="#niveles">Niveles</a>
       <a href="#ubicacion">Ubicación</a>
       <a href="constancias.html" id="constanciasLink" style="display:none;color:var(--amarillo);font-weight:700;">Constancias</a>
+      <a href="usuarios.html" id="userModuleLink" style="display:none;color:var(--amarillo);font-weight:700;">Mi Módulo</a>
       <div class="sesion" id="userSessionContainer">
         <span>Usuario: <strong id="sessionUserName"></strong></span>
         <a href="#" id="logoutBtn">Salir</a>
@@ -443,21 +444,28 @@ for enlace in menu.select('a'):
 
 
     <div id="registerFormContainer" style="display:none;">
-      <div class="login-title">Registro</div>
-      <div class="login-subtitle">Solo personal de Control de Estudio</div>
+      <div class="login-title">Registro de estudiante</div>
+      <div class="login-subtitle">Crea tu cuenta para solicitar constancias</div>
       <div class="campo">
         <label for="regFullName">Nombre y apellido</label>
-        <input type="text" id="regFullName">
+        <input type="text" id="regFullName" autocomplete="name">
+      </div>
+      <div class="campo">
+        <label for="regCedula">Cédula de Identidad</label>
+        <input type="text" id="regCedula" placeholder="Ej. V-32.456.789" autocomplete="off">
       </div>
       <div class="campo">
         <label for="regEmail">Correo</label>
-        <input type="email" id="regEmail">
+        <input type="email" id="regEmail" autocomplete="email">
       </div>
       <div class="campo">
-        <label for="regUser">Usuario</label>
-        <input type="text" id="regUser">
+        <label for="regPhone">Número de teléfono</label>
+        <input type="tel" id="regPhone" placeholder="Ej. 0414-1234567" autocomplete="tel">
       </div>
-      <input type="hidden" id="regRole" value="Control de Estudio">
+      <div class="campo">
+        <label for="regUser">Nombre de usuario</label>
+        <input type="text" id="regUser" autocomplete="username">
+      </div>
       <div class="campo">
         <label for="regPwd">Contraseña</label>
         <div class="con-boton">
@@ -496,6 +504,10 @@ for enlace in menu.select('a'):
         </div>
         <input type="hidden" id="recTargetUser">
         <div class="campo">
+          <label for="recCodigo">Código recibido por correo</label>
+          <input type="text" id="recCodigo" inputmode="numeric" maxlength="6" placeholder="Ej. 123456" autocomplete="one-time-code">
+        </div>
+        <div class="campo">
           <label for="recPwd">Nueva contraseña</label>
           <div class="con-boton">
             <input type="password" id="recPwd" autocomplete="new-password">
@@ -517,258 +529,7 @@ for enlace in menu.select('a'):
   </div>
 </div>
 
-<script>
-  const modal = document.getElementById('loginModal');
-  const msg = document.getElementById('modalStatusMsg');
-  const formLogin = document.getElementById('loginFormContainer');
-  const formRegistro = document.getElementById('registerFormContainer');
-  const formRecuperar = document.getElementById('recuperarFormContainer');
-
-  const btnLogin = document.getElementById('openLoginModal');
-  const linkConstancias = document.getElementById('constanciasLink');
-  const cajaSesion = document.getElementById('userSessionContainer');
-
-  function mostrarMensaje(texto, tipo) {
-    msg.innerText = texto;
-    msg.style.display = 'block';
-    msg.style.background = tipo === 'ok' ? '#d4edda' : '#f8d7da';
-    msg.style.color = tipo === 'ok' ? '#155724' : '#721c24';
-  }
-
-  function ocultarMensaje() {
-    msg.style.display = 'none';
-  }
-
-  function mostrar(form) {
-    ocultarMensaje();
-    formLogin.style.display = 'none';
-    formRegistro.style.display = 'none';
-    formRecuperar.style.display = 'none';
-    form.style.display = 'block';
-  }
-
-  btnLogin.addEventListener('click', (e) => {
-    e.preventDefault();
-    mostrar(formLogin);
-    modal.classList.add('open');
-  });
-  document.getElementById('closeLoginModal').addEventListener('click', () => modal.classList.remove('open'));
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) modal.classList.remove('open');
-  });
-
-  document.getElementById('switchToRegister').addEventListener('click', (e) => { e.preventDefault(); mostrar(formRegistro); });
-  document.getElementById('switchToLogin').addEventListener('click', (e) => { e.preventDefault(); mostrar(formLogin); });
-
-  function abrirPaso2Recuperacion(username, email) {
-    document.getElementById('recuperarPaso1').style.display = 'none';
-    document.getElementById('recuperarPaso2').style.display = 'block';
-    document.getElementById('recTargetUser').value = username;
-    document.getElementById('recCorreoTexto').innerText = email;
-    mostrarMensaje('Se envió la información al correo registrado al usuario.', 'ok');
-  }
-
-  document.getElementById('switchToRecuperar').addEventListener('click', (e) => {
-    e.preventDefault();
-    mostrar(formRecuperar);
-    const usuarioIngresado = document.getElementById('loginUser').value.trim().toLowerCase();
-    const usuarios = leerUsuarios();
-
-    if (usuarioIngresado && usuarios[usuarioIngresado]) {
-      const u = usuarios[usuarioIngresado];
-      abrirPaso2Recuperacion(u.username, u.email);
-    } else {
-      document.getElementById('recuperarPaso1').style.display = 'block';
-      document.getElementById('recuperarPaso2').style.display = 'none';
-      if (usuarioIngresado) {
-        document.getElementById('recUserOrEmail').value = usuarioIngresado;
-      }
-    }
-  });
-
-  document.getElementById('recBuscarBtn').addEventListener('click', () => {
-    const valor = document.getElementById('recUserOrEmail').value.trim().toLowerCase();
-    if (!valor) {
-      mostrarMensaje('Escribe tu usuario o correo.', 'error');
-      return;
-    }
-    const usuarios = leerUsuarios();
-    let u = usuarios[valor];
-    if (!u) {
-      for (const k in usuarios) {
-        if (usuarios[k].email && usuarios[k].email.toLowerCase() === valor) {
-          u = usuarios[k];
-          break;
-        }
-      }
-    }
-    if (u) {
-      abrirPaso2Recuperacion(u.username, u.email);
-    } else {
-      mostrarMensaje('No se encontró ninguna cuenta con ese usuario o correo.', 'error');
-    }
-  });
-
-  document.getElementById('recRestablecerBtn').addEventListener('click', () => {
-    const username = document.getElementById('recTargetUser').value;
-    const clave = document.getElementById('recPwd').value;
-    const clave2 = document.getElementById('recPwdConfirm').value;
-
-    if (!clave || !clave2) {
-      mostrarMensaje('Faltan datos por llenar.', 'error');
-      return;
-    }
-    if (clave.length < 6) {
-      mostrarMensaje('La contraseña debe tener al menos 6 caracteres.', 'error');
-      return;
-    }
-    if (!/[^a-zA-Z0-9\s]/.test(clave)) {
-      mostrarMensaje('La contraseña debe tener al menos un carácter especial (ejemplo: !@#$%&*).', 'error');
-      return;
-    }
-    if (clave !== clave2) {
-      mostrarMensaje('Las contraseñas no son iguales.', 'error');
-      return;
-    }
-
-    const usuarios = leerUsuarios();
-    if (usuarios[username]) {
-      usuarios[username].password = clave;
-      localStorage.setItem('users', JSON.stringify(usuarios));
-      ['recPwd', 'recPwdConfirm', 'recUserOrEmail'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = '';
-      });
-      mostrarMensaje('Contraseña actualizada con éxito. Ya puedes iniciar sesión.', 'ok');
-      setTimeout(() => {
-        mostrar(formLogin);
-        document.getElementById('loginPwd').value = '';
-        const linkRec = document.getElementById('switchToRecuperar');
-        if (linkRec) { linkRec.style.color = ''; linkRec.style.fontWeight = ''; }
-      }, 1800);
-    } else {
-      mostrarMensaje('Error al restablecer la contraseña.', 'error');
-    }
-  });
-
-  document.getElementById('recVolverLogin').addEventListener('click', (e) => {
-    e.preventDefault();
-    mostrar(formLogin);
-  });
-
-  document.getElementById('togglePwd').addEventListener('click', () => {
-    const campo = document.getElementById('loginPwd');
-    campo.type = campo.type === 'password' ? 'text' : 'password';
-  });
-  document.getElementById('toggleRegPwd').addEventListener('click', () => {
-    const tipo = document.getElementById('regPwd').type === 'password' ? 'text' : 'password';
-    document.getElementById('regPwd').type = tipo;
-    document.getElementById('regPwdConfirm').type = tipo;
-  });
-  document.getElementById('toggleRecPwd').addEventListener('click', () => {
-    const tipo = document.getElementById('recPwd').type === 'password' ? 'text' : 'password';
-    document.getElementById('recPwd').type = tipo;
-    document.getElementById('recPwdConfirm').type = tipo;
-  });
-
-  function leerUsuarios() {
-    if (!localStorage.getItem('users')) {
-      localStorage.setItem('users', JSON.stringify({
-        admin: { username: 'admin', password: '123', fullName: 'Administrador', email: 'admin@escuela.edu.ve', role: 'Docente' }
-      }));
-    }
-    return JSON.parse(localStorage.getItem('users'));
-  }
-
-  document.getElementById('regSubmitBtn').addEventListener('click', () => {
-    const nombre = document.getElementById('regFullName').value.trim();
-    const correo = document.getElementById('regEmail').value.trim();
-    const usuario = document.getElementById('regUser').value.trim().toLowerCase();
-    const rol = document.getElementById('regRole').value;
-    const clave = document.getElementById('regPwd').value;
-    const clave2 = document.getElementById('regPwdConfirm').value;
-
-    if (!nombre || !correo || !usuario || !clave || !clave2) {
-      mostrarMensaje('Faltan datos por llenar.', 'error');
-      return;
-    }
-    if (clave.length < 6) {
-      mostrarMensaje('La contraseña debe tener al menos 6 caracteres.', 'error');
-      return;
-    }
-    if (!/[^a-zA-Z0-9\s]/.test(clave)) {
-      mostrarMensaje('La contraseña debe tener al menos un carácter especial (ejemplo: !@#$%&*).', 'error');
-      return;
-    }
-    if (clave !== clave2) {
-      mostrarMensaje('Las contraseñas no son iguales.', 'error');
-      return;
-    }
-
-    const usuarios = leerUsuarios();
-    if (usuarios[usuario]) {
-      mostrarMensaje('Ese usuario ya existe.', 'error');
-      return;
-    }
-
-    usuarios[usuario] = { username: usuario, password: clave, fullName: nombre, email: correo, role: rol };
-    localStorage.setItem('users', JSON.stringify(usuarios));
-
-    ['regFullName', 'regEmail', 'regUser', 'regPwd', 'regPwdConfirm'].forEach(id => document.getElementById(id).value = '');
-    mostrarMensaje('Registro listo. Ya puedes iniciar sesión.', 'ok');
-    setTimeout(() => mostrar(formLogin), 1500);
-  });
-
-  document.getElementById('loginSubmitBtn').addEventListener('click', () => {
-    const usuario = document.getElementById('loginUser').value.trim().toLowerCase();
-    const clave = document.getElementById('loginPwd').value;
-
-    if (!usuario || !clave) {
-      mostrarMensaje('Escribe tu usuario y contraseña.', 'error');
-      return;
-    }
-
-    const encontrado = leerUsuarios()[usuario];
-
-    if (encontrado && encontrado.password === clave) {
-      localStorage.setItem('activeUser', JSON.stringify(encontrado));
-      document.getElementById('loginUser').value = '';
-      document.getElementById('loginPwd').value = '';
-      const linkRec = document.getElementById('switchToRecuperar');
-      if (linkRec) { linkRec.style.color = ''; linkRec.style.fontWeight = ''; }
-      window.location.href = 'constancias.html';
-    } else {
-      mostrarMensaje('Usuario o contraseña incorrectos.', 'error');
-      const linkRec = document.getElementById('switchToRecuperar');
-      if (linkRec) {
-        linkRec.style.color = 'var(--rojo)';
-        linkRec.style.fontWeight = '700';
-      }
-    }
-  });
-
-  function revisarSesion() {
-    const activo = JSON.parse(localStorage.getItem('activeUser'));
-    if (activo) {
-      btnLogin.style.display = 'none';
-      linkConstancias.style.display = 'inline-block';
-      document.getElementById('sessionUserName').innerText = activo.fullName.split(' ')[0];
-      cajaSesion.style.display = 'flex';
-    } else {
-      btnLogin.style.display = 'inline-block';
-      linkConstancias.style.display = 'none';
-      cajaSesion.style.display = 'none';
-    }
-  }
-
-  document.getElementById('logoutBtn').addEventListener('click', (e) => {
-    e.preventDefault();
-    localStorage.removeItem('activeUser');
-    revisarSesion();
-  });
-
-  revisarSesion();
-</script>
+<script src="auth.js"></script>
 
 </body>
 </html>

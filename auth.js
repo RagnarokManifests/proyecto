@@ -211,7 +211,15 @@
       document.getElementById('recCorreoTexto').innerText = datos.email || 'tu correo registrado';
       document.getElementById('recuperarPaso1').style.display = 'none';
       document.getElementById('recuperarPaso2').style.display = 'block';
-      mostrarMensaje('Se envió un código de recuperación al correo registrado.', 'ok');
+      if (datos.demoCodigo) {
+        document.getElementById('recCodigo').value = datos.demoCodigo;
+        mostrarMensaje(
+          'Modo demostración: el código es ' + datos.demoCodigo + ' (ya lo colocamos por ti).',
+          'ok'
+        );
+      } else {
+        mostrarMensaje('Se envió un código de recuperación al correo registrado.', 'ok');
+      }
     } catch (error) {
       mostrarMensaje(error.message, 'error');
     }
